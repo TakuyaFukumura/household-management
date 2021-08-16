@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>サービス名｜家計簿設定</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+    <header>
+        <h1>家計簿設定</h1>
+    </header>
+    <div>
+        項目ごとに予算を設定してください<br>
+        ※入力は半角数字のみ
+    </div>
+    <form method="post" th:action="@{/budgetSetting/submit}" th:object="${budgetSettingForm}">
+        <input type="hidden" th:field="*{myselfId}">
+        <input type="hidden" th:field="*{partnerId}">
+        <div>
+            <span th:text="食費：" />
+            <input type="text" th:field="*{foodExpenses}">
+        </div>
+        <div>
+            <span th:text="日用品" />
+            <input type="text" th:field="*{dailyUseItems}">
+        </div>
+        <div>
+            <span th:text="趣味・娯楽" />
+            <input type="text" th:field="*{hobbiesAndLeisureExpenses}">
+        </div>
+        <div>
+            <span th:text="交際費" />
+            <input type="text" th:field="*{entertainmentExpenses}">
+        </div>
+        <div>
+            <span th:text="交通費" />
+            <input type="text" th:field="*{transportCosts}">
+        </div>
+        <div>
+            <span th:text="衣服・美容" />
+            <input type="text" th:field="*{clothingAndBeauty}">
+        </div>
+        <div>
+            <span th:text="健康・医療" />
+            <input type="text" th:field="*{healthAndMedical}">
+        </div>
+        <div>
+            <span th:text="自動車" />
+            <input type="text" th:field="*{carCost}">
+        </div>
+        <div>
+            <span th:text="教養・教育" />
+            <input type="text" th:field="*{liberalArtsExpenses}">
+        </div>
+        <div>
+            <span th:text="特別な支出" />
+            <input type="text" th:field="*{specialSpending}">
+        </div>
+        <div>
+            <span th:text="現金・カード" />
+            <input type="text" th:field="*{cashOrCard}">
+        </div>
+        <div>
+            <span th:text="水道・光熱費" />
+            <input type="text" th:field="*{utilityCosts}">
+        </div>
+        <div>
+            <span th:text="通信費" />
+            <input type="text" th:field="*{phoneAndInternetCosts}">
+        </div>
+        <div>
+            <span th:text="住宅" />
+            <input type="text" th:field="*{housingExpenses}">
+        </div>
+        <div>
+            <span th:text="税・社会保障" />
+            <input type="text" th:field="*{taxesAndSocialSecurity}">
+        </div>
+        <div>
+            <span th:text="保険" />
+            <input type="text" th:field="*{insurance}">
+        </div>
+        <div>
+            <span th:text="その他" />
+            <input type="text" th:field="*{others}">
+        </div>
+        <div>
+            <span th:text="未分類" />
+            <input type="text" th:field="*{uncategorized}">
+        </div>
+        <input type="submit" value="設定を保存">
+    </form>
+</body>
+
+</html>
