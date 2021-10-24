@@ -6,15 +6,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
 //import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
+//import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.boot.CommandLineRunner;
 
 @Controller
 @SpringBootApplication
 public class Main implements CommandLineRunner {
 
-    @Autowired
-    JdbcTemplate jdbcTemplate;
+    //@Autowired
+    //JdbcTemplate jdbcTemplate;
 
     //設定ファイルの値を使用する方法
     //@Value("${hello.world}") 
