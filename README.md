@@ -1,5 +1,5 @@
 # household-management
-[![build](https://github.com/TakuyaFukumura/household-management/actions/workflows/build.yml/badge.svg)](https://github.com/TakuyaFukumura/household-management/actions/workflows/build.yml?query=branch:master)
+[![build](https://github.com/TakuyaFukumura/household-management/actions/workflows/build.yml/badge.svg)](https://github.com/TakuyaFukumura/household-management/actions/workflows/build.yml?query=branch:main)
 ## 起動方法
 `$ ./mvnw spring-boot:run`
 ## 実行可能 Jar の作成
