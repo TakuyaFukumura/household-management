@@ -2,6 +2,9 @@ name: build
 
 on: push
 
+env: 
+  ARTIFACT_ID: household-management
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -23,3 +26,12 @@ jobs:
         path: artifact
     - name: Check hash value for jar
       run: sha1sum target/*.jar
+    - name: Show artifact download commands
+      run: |
+        echo '$ read TOKEN'
+        echo '$ curl -s -H "Accept: application/vnd.github.v3+json" \
+          -H "Authorization: token ${TOKEN}" \
+          ${{ github.api_url }}/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts \
+          | jq -r '.artifacts[0].archive_download_url' \
+          | (read URL ; curl -L -H "Authorization: token ${TOKEN}" -o ${{ env.ARTIFACT_ID }}.zip ${URL})'
+        echo '$ unzip ${{ env.ARTIFACT_ID }}.zip'
