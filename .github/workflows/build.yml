@@ -21,3 +21,5 @@ jobs:
       with:
         name: deliverables
         path: artifact
+    - name: Check hash value for jar
+      run: sha1sum target/*.jar
