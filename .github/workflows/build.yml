@@ -17,13 +17,11 @@ jobs:
         cache: 'maven'
     - name: maven
       run: chmod +x mvnw && ./mvnw clean package
-    - name: copy jar
-      run: mkdir artifact && cp target/*.jar artifact
     - name: upload jar
       uses: actions/upload-artifact@v3
       with:
         name: deliverables
-        path: artifact
+        path: target/*.jar
     - name: Check hash value for jar
       run: sha1sum target/*.jar
     - name: Show artifact download commands
