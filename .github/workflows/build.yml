@@ -1,4 +1,4 @@
-name: build
+name: Build Workflow
 
 on: push
 
@@ -20,22 +20,26 @@ jobs:
         cache: 'maven'
     
     - name: Build
-      run: chmod +x mvnw && ./mvnw clean package
+      id: build
+      run: | 
+        chmod +x mvnw
+        ./mvnw clean package
+        echo "::set-output name=artifact-id::$( ls target/*jar | awk -F'/' '{print $2}' )"
     
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
-        name: deliverables
-        path: target/*.jar
+        name: ${{ steps.build.outputs.artifact-id }}
+        path: target/${{ steps.build.outputs.artifact-id }}
     
     - name: Upload artifact to release page
       uses: softprops/action-gh-release@v1
       if: startsWith( github.ref, 'refs/tags/' )
       with:
-        files: target/*.jar
+        files: target/${{ steps.build.outputs.artifact-id }}
 
     - name: Check hash value for jar
-      run: sha1sum target/*.jar
+      run: sha1sum target/${{ steps.build.outputs.artifact-id }}
     
     - name: Show artifact download commands
       run: |
@@ -44,5 +48,5 @@ jobs:
           -H "Authorization: token ${TOKEN}" \
           ${{ github.api_url }}/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts \
           | jq -r '.artifacts[0].archive_download_url' \
-          | (read URL ; curl -L -H "Authorization: token ${TOKEN}" -o ${{ env.ARTIFACT_ID }}.zip ${URL})'
-        echo '$ unzip ${{ env.ARTIFACT_ID }}.zip'
+          | (read URL ; curl -L -H "Authorization: token ${TOKEN}" -o ${{ steps.build.outputs.artifact-id }}.zip ${URL})'
+        echo '$ unzip ${{ steps.build.outputs.artifact-id }}.zip'
