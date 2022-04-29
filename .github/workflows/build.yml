@@ -2,9 +2,6 @@ name: Build Workflow
 
 on: push
 
-env: 
-  ARTIFACT_ID: household-management
-
 jobs:
   build:
     runs-on: ubuntu-latest
