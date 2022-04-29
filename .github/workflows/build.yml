@@ -28,6 +28,12 @@ jobs:
         name: deliverables
         path: target/*.jar
     
+    - name: Upload artifact to release page
+      uses: softprops/action-gh-release@v1
+      if: startsWith( github.ref, 'refs/tags/' )
+      with:
+        files: target/*.jar
+
     - name: Check hash value for jar
       run: sha1sum target/*.jar
     
