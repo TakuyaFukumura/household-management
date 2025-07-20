@@ -2,7 +2,6 @@ package com.example.service;
 
 import com.example.entity.HouseholdExpense;
 import com.example.repository.HouseholdExpenseRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,8 +9,11 @@ import java.util.List;
 @Service
 public class HouseholdExpenseService {
 
-    @Autowired
-    private HouseholdExpenseRepository householdExpenseRepository;
+    private final HouseholdExpenseRepository householdExpenseRepository;
+
+    public HouseholdExpenseService(HouseholdExpenseRepository householdExpenseRepository) {
+        this.householdExpenseRepository = householdExpenseRepository;
+    }
 
     // 全ての家計簿データを取得
     public List<HouseholdExpense> getAllExpenses() {

@@ -1,7 +1,6 @@
 package com.example.repository;
 
 import com.example.entity.HouseholdExpense;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -13,8 +12,11 @@ import java.util.List;
 @Repository
 public class HouseholdExpenseRepository {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
+
+    public HouseholdExpenseRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     private final RowMapper<HouseholdExpense> rowMapper = new RowMapper<HouseholdExpense>() {
         @Override

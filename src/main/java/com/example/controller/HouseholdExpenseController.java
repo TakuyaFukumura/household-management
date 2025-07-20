@@ -2,7 +2,6 @@ package com.example.controller;
 
 import com.example.entity.HouseholdExpense;
 import com.example.service.HouseholdExpenseService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -22,8 +21,11 @@ import java.util.List;
 @RequestMapping("/expenses")
 public class HouseholdExpenseController {
 
-    @Autowired
-    private HouseholdExpenseService householdExpenseService;
+    private final HouseholdExpenseService householdExpenseService;
+
+    public HouseholdExpenseController(HouseholdExpenseService householdExpenseService) {
+        this.householdExpenseService = householdExpenseService;
+    }
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
