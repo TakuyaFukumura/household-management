@@ -6,10 +6,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -53,15 +51,15 @@ public class HouseholdExpenseRepository {
     // 家計簿データを保存
     public int save(HouseholdExpense expense) {
         String sql = "INSERT INTO household_expenses (expense_date, category, amount, description) VALUES (?, ?, ?, ?)";
-        return jdbcTemplate.update(sql, expense.getExpenseDate(), expense.getCategory(), 
-                                  expense.getAmount(), expense.getDescription());
+        return jdbcTemplate.update(sql, expense.getExpenseDate(), expense.getCategory(),
+                expense.getAmount(), expense.getDescription());
     }
 
     // 家計簿データを更新
     public int update(HouseholdExpense expense) {
         String sql = "UPDATE household_expenses SET expense_date = ?, category = ?, amount = ?, description = ? WHERE id = ?";
-        return jdbcTemplate.update(sql, expense.getExpenseDate(), expense.getCategory(), 
-                                  expense.getAmount(), expense.getDescription(), expense.getId());
+        return jdbcTemplate.update(sql, expense.getExpenseDate(), expense.getCategory(),
+                expense.getAmount(), expense.getDescription(), expense.getId());
     }
 
     // 家計簿データを削除
