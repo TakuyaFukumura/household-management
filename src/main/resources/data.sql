@@ -1,4 +1,6 @@
--- 家計簿テストデータ (Household Expenses Test Data)
+-- 家計簿テストデータ
+DELETE FROM household_expenses;
+
 INSERT INTO household_expenses (expense_date, category, amount, description) VALUES
 ('2024-01-15', '食費', 1500.00, 'スーパーでの買い物'),
 ('2024-01-16', '交通費', 300.00, '電車代'),
