@@ -2,12 +2,31 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Thymeleaf</title>
+    <title>家計簿管理システム</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .btn { 
+            display: inline-block; 
+            padding: 10px 20px; 
+            margin: 10px; 
+            text-decoration: none; 
+            border-radius: 5px; 
+            background-color: #007bff; 
+            color: white; 
+        }
+        .btn:hover { background-color: #0056b3; }
+    </style>
 </head>
 
 <body>
-    <p th:text="index" />
+    <h1>家計簿管理システム</h1>
+    <p>家計簿の管理ができます。</p>
+    
+    <div>
+        <a th:href="@{/expenses}" class="btn">家計簿を見る</a>
+        <a th:href="@{/hello}" class="btn">Hello ページ</a>
+    </div>
 </body>
 
 </html>
