@@ -17,12 +17,12 @@ public class HouseholdExpenseService {
 
     // 全ての家計簿データを取得
     public List<HouseholdExpense> getAllExpenses() {
-        return householdExpenseRepository.findAll();
+        return householdExpenseRepository.findAllByOrderByExpenseDateDescIdDesc();
     }
 
     // IDで家計簿データを取得
     public HouseholdExpense getExpenseById(Long id) {
-        return householdExpenseRepository.findById(id);
+        return householdExpenseRepository.findById(id).orElse(null);
     }
 
     // 家計簿データを保存
@@ -32,7 +32,7 @@ public class HouseholdExpenseService {
 
     // 家計簿データを更新
     public void updateExpense(HouseholdExpense expense) {
-        householdExpenseRepository.update(expense);
+        householdExpenseRepository.save(expense);
     }
 
     // 家計簿データを削除
