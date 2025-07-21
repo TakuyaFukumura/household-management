@@ -11,7 +11,7 @@ public class Main {
 
     @RequestMapping("/")
     String home() {
-        return "index";
+        return "redirect:/expenses";
     }
 
     public static void main(String[] args) {

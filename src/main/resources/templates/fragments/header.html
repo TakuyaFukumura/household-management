@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        .header-menu {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+        }
+        .header-menu h1 {
+            margin: 0;
+            color: #343a40;
+            font-size: 24px;
+        }
+        .header-menu nav {
+            margin-top: 10px;
+        }
+        .header-menu .nav-link {
+            display: inline-block;
+            padding: 8px 16px;
+            margin-right: 10px;
+            text-decoration: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            font-size: 14px;
+        }
+        .header-menu .nav-link:hover {
+            background-color: #0056b3;
+        }
+        .header-menu .nav-link.secondary {
+            background-color: #28a745;
+        }
+        .header-menu .nav-link.secondary:hover {
+            background-color: #1e7e34;
+        }
+    </style>
+</head>
+<body>
+    <div th:fragment="header" class="header-menu">
+        <h1>家計簿管理システム</h1>
+        <nav>
+            <a th:href="@{/expenses}" class="nav-link">支出一覧</a>
+            <a th:href="@{/expenses/add}" class="nav-link secondary">新規追加</a>
+        </nav>
+    </div>
+</body>
+</html>
