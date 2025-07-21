@@ -25,13 +25,8 @@ public class HouseholdExpenseService {
         return householdExpenseRepository.findById(id).orElse(null);
     }
 
-    // 家計簿データを保存
+    // 家計簿データを保存・更新
     public void saveExpense(HouseholdExpense expense) {
-        householdExpenseRepository.save(expense);
-    }
-
-    // 家計簿データを更新
-    public void updateExpense(HouseholdExpense expense) {
         householdExpenseRepository.save(expense);
     }
 

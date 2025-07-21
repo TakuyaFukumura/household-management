@@ -74,7 +74,7 @@ public class HouseholdExpenseController {
     @PostMapping("/edit/{id}")
     public String updateExpense(@PathVariable Long id, @ModelAttribute HouseholdExpense expense) {
         expense.setId(id);
-        householdExpenseService.updateExpense(expense);
+        householdExpenseService.saveExpense(expense);
         return "redirect:/expenses";
     }
 
