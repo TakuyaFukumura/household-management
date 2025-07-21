@@ -38,7 +38,7 @@
             <tr th:each="expense : ${expenses}">
                 <td th:text="${expense.expenseDate}"></td>
                 <td th:text="${expense.category}"></td>
-                <td th:text="${'¥' + expense.amount}" class="amount"></td>
+                <td th:text="${'¥' + #numbers.formatInteger(expense.amount, 0)}" class="amount"></td>
                 <td th:text="${expense.description}"></td>
                 <td>
                     <a th:href="@{/expenses/edit/{id}(id=${expense.id})}" class="btn btn-warning">編集</a>
