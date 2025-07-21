@@ -21,6 +21,8 @@ import java.util.List;
 @RequestMapping("/expenses")
 public class HouseholdExpenseController {
 
+    private static final String REDIRECT_EXPENSES = "redirect:/expenses";
+
     private final HouseholdExpenseService householdExpenseService;
 
     public HouseholdExpenseController(HouseholdExpenseService householdExpenseService) {
@@ -56,7 +58,7 @@ public class HouseholdExpenseController {
     @PostMapping("/add")
     public String addExpense(@ModelAttribute HouseholdExpense expense) {
         householdExpenseService.saveExpense(expense);
-        return "redirect:/expenses";
+        return REDIRECT_EXPENSES;
     }
 
     // 編集フォーム表示
@@ -64,7 +66,7 @@ public class HouseholdExpenseController {
     public String showEditForm(@PathVariable Long id, Model model) {
         HouseholdExpense expense = householdExpenseService.getExpenseById(id).orElse(null);
         if (expense == null) {
-            return "redirect:/expenses";
+            return REDIRECT_EXPENSES;
         }
         model.addAttribute("expense", expense);
         return "expenses/edit";
@@ -75,13 +77,13 @@ public class HouseholdExpenseController {
     public String updateExpense(@PathVariable Long id, @ModelAttribute HouseholdExpense expense) {
         expense.setId(id);
         householdExpenseService.saveExpense(expense);
-        return "redirect:/expenses";
+        return REDIRECT_EXPENSES;
     }
 
     // 削除処理
     @PostMapping("/delete/{id}")
     public String deleteExpense(@PathVariable Long id) {
         householdExpenseService.deleteExpense(id);
-        return "redirect:/expenses";
+        return REDIRECT_EXPENSES;
     }
 }
