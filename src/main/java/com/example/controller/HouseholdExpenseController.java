@@ -62,7 +62,7 @@ public class HouseholdExpenseController {
     // 編集フォーム表示
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
-        HouseholdExpense expense = householdExpenseService.getExpenseById(id);
+        HouseholdExpense expense = householdExpenseService.getExpenseById(id).orElse(null);
         if (expense == null) {
             return "redirect:/expenses";
         }

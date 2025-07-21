@@ -5,6 +5,7 @@ import com.example.repository.HouseholdExpenseRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HouseholdExpenseService {
@@ -21,8 +22,8 @@ public class HouseholdExpenseService {
     }
 
     // IDで家計簿データを取得
-    public HouseholdExpense getExpenseById(Long id) {
-        return householdExpenseRepository.findById(id).orElse(null);
+    public Optional<HouseholdExpense> getExpenseById(Long id) {
+        return householdExpenseRepository.findById(id);
     }
 
     // 家計簿データを保存・更新
