@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
-@RequestMapping("/expenses")
+@RequestMapping({"/", "/expenses"})
 public class HouseholdExpenseController {
 
     private static final String REDIRECT_EXPENSES = "redirect:/expenses";
