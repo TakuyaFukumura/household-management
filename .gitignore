@@ -25,3 +25,7 @@ target/
 hs_err_pid*
 
 .idea/
+
+# h2dbディレクトリ内のファイルは除外、.gitkeepは含める
+h2db/*
+!h2db/.gitkeep

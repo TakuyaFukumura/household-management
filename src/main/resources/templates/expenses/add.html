@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>家計簿 - 新規追加</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, select, textarea { width: 300px; padding: 8px; border: 1px solid #ddd; border-radius: 3px; }
+        textarea { height: 60px; resize: vertical; }
+        .btn { padding: 10px 20px; margin: 5px; text-decoration: none; border-radius: 3px; border: none; cursor: pointer; }
+        .btn-primary { background-color: #007bff; color: white; }
+        .btn-secondary { background-color: #6c757d; color: white; }
+    </style>
+</head>
+<body>
+    <h1>家計簿 - 新規追加</h1>
+    
+    <form th:action="@{/expenses/add}" method="post" th:object="${expense}">
+        <div class="form-group">
+            <label for="expenseDate">日付:</label>
+            <input type="date" id="expenseDate" th:field="*{expenseDate}" required />
+        </div>
+        
+        <div class="form-group">
+            <label for="category">カテゴリ:</label>
+            <select id="category" th:field="*{category}" required>
+                <option value="">選択してください</option>
+                <option value="食費">食費</option>
+                <option value="交通費">交通費</option>
+                <option value="光熱費">光熱費</option>
+                <option value="医療費">医療費</option>
+                <option value="娯楽費">娯楽費</option>
+                <option value="雑費">雑費</option>
+                <option value="その他">その他</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="amount">金額 (円):</label>
+            <input type="number" id="amount" th:field="*{amount}" step="1" min="0" required />
+        </div>
+        
+        <div class="form-group">
+            <label for="description">説明:</label>
+            <textarea id="description" th:field="*{description}" placeholder="支出の詳細を入力してください"></textarea>
+        </div>
+        
+        <div>
+            <button type="submit" class="btn btn-primary">追加</button>
+            <a th:href="@{/expenses}" class="btn btn-secondary">キャンセル</a>
+        </div>
+    </form>
+</body>
+</html>
