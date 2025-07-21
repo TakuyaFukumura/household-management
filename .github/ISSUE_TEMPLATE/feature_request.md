@@ -1,3 +1,11 @@
+---
+name: 機能リクエスト
+about: プロジェクトの新機能を提案してください
+title: '[FEATURE] '
+labels: 'enhancement'
+assignees: ''
+---
+
 # 概要
 - here
 
