@@ -16,10 +16,6 @@ public class Main implements CommandLineRunner {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    //設定ファイルの値を使用する方法
-    //@Value("${hello.world}") 
-    //private String helloWorld;
-
     @RequestMapping("/")
     String home() {
         return "index";
