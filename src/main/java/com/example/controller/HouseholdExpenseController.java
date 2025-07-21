@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.beans.PropertyEditorSupport;
 import java.time.LocalDate;
@@ -39,11 +40,36 @@ public class HouseholdExpenseController {
         });
     }
 
-    // 家計簿一覧表示
+    // 家計簿一覧表示（年月フィルタリング対応）
     @GetMapping
-    public String listExpenses(Model model) {
-        List<HouseholdExpense> expenses = householdExpenseService.getAllExpenses();
+    public String listExpenses(
+            @RequestParam(value = "year", required = false) Integer year,
+            @RequestParam(value = "month", required = false) Integer month,
+            Model model) {
+        
+        // 年月が指定されていない場合は現在月を使用
+        LocalDate targetDate;
+        if (year == null || month == null) {
+            targetDate = LocalDate.now();
+        } else {
+            targetDate = LocalDate.of(year, month, 1);
+        }
+        
+        List<HouseholdExpense> expenses = householdExpenseService.getExpensesByYearAndMonth(
+                targetDate.getYear(), targetDate.getMonthValue());
+        
         model.addAttribute("expenses", expenses);
+        model.addAttribute("currentYear", targetDate.getYear());
+        model.addAttribute("currentMonth", targetDate.getMonthValue());
+        
+        // 前月・次月の計算
+        LocalDate prevMonth = targetDate.minusMonths(1);
+        LocalDate nextMonth = targetDate.plusMonths(1);
+        model.addAttribute("prevYear", prevMonth.getYear());
+        model.addAttribute("prevMonth", prevMonth.getMonthValue());
+        model.addAttribute("nextYear", nextMonth.getYear());
+        model.addAttribute("nextMonth", nextMonth.getMonthValue());
+        
         return "expenses/list";
     }
 
