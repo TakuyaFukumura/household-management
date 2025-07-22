@@ -9,6 +9,8 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -42,12 +44,14 @@ public class HouseholdBudget {
     /**
      * 作成日時
      */
+    @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     /**
      * 更新日時
      */
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 }
