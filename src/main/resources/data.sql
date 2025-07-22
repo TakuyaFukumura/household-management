@@ -12,7 +12,7 @@ INSERT INTO household_expenses (expense_date, category, amount, description) VAL
 ('2025-09-24', '食費', 1800.00, '食材購入');
 
 -- 理想家計簿テストデータ
-INSERT INTO ideal_budgets (category, amount) VALUES
+INSERT INTO household_budgets (category, amount) VALUES
 ('住居費', 42000.00),
 ('食費', 30000.00),
 ('娯楽費', 30000.00),

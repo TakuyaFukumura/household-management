@@ -30,24 +30,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="idealBudget : ${idealBudgets}">
-                        <td th:text="${idealBudget.category}"></td>
-                        <td th:text="${'¥' + #numbers.formatInteger(idealBudget.amount, 0)}" class="text-end"></td>
+                    <tr th:each="householdBudget : ${householdBudgets}">
+                        <td th:text="${householdBudget.category}"></td>
+                        <td th:text="${'¥' + #numbers.formatInteger(householdBudget.amount, 0)}" class="text-end"></td>
                         <td>
-                            <a th:href="@{/ideal-budget/edit/{id}(id=${idealBudget.id})}" class="btn btn-warning btn-sm me-1">編集</a>
-                            <form th:action="@{/ideal-budget/delete/{id}(id=${idealBudget.id})}" method="post" class="d-inline">
+                            <a th:href="@{/ideal-budget/edit/{id}(id=${householdBudget.id})}" class="btn btn-warning btn-sm me-1">編集</a>
+                            <form th:action="@{/ideal-budget/delete/{id}(id=${householdBudget.id})}" method="post" class="d-inline">
                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('削除してもよろしいですか？')">削除</button>
                             </form>
                         </td>
                     </tr>
-                    <tr th:if="${#lists.isEmpty(idealBudgets)}">
+                    <tr th:if="${#lists.isEmpty(householdBudgets)}">
                         <td colspan="3" class="text-center text-muted">データがありません</td>
                     </tr>
                 </tbody>
-                <tfoot th:if="${!#lists.isEmpty(idealBudgets)}">
+                <tfoot th:if="${!#lists.isEmpty(householdBudgets)}">
                     <tr class="table-secondary">
                         <th>合計</th>
-                        <th th:text="${'¥' + #numbers.formatInteger(#aggregates.sum(idealBudgets.![amount]), 0)}" class="text-end"></th>
+                        <th th:text="${'¥' + #numbers.formatInteger(#aggregates.sum(householdBudgets.![amount]), 0)}" class="text-end"></th>
                         <th></th>
                     </tr>
                 </tfoot>

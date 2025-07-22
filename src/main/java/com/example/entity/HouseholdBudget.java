@@ -14,14 +14,14 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * 予算
+ * 家計予算
  */
 @Entity
-@Table(name = "ideal_budgets")
+@Table(name = "household_budgets")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class IdealBudget {
+public class HouseholdBudget {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
