@@ -4,7 +4,7 @@ import com.example.entity.HouseholdExpense;
 import com.example.repository.HouseholdExpenseRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,23 +17,16 @@ public class HouseholdExpenseService {
         this.householdExpenseRepository = householdExpenseRepository;
     }
 
-    // 全ての家計簿データを取得
-    public List<HouseholdExpense> getAllExpenses() {
-        return householdExpenseRepository.findAllByOrderByExpenseDateDescIdDesc();
-    }
-
-    // 指定年月の家計簿データを取得
-    public List<HouseholdExpense> getExpensesByYearAndMonth(int year, int month) {
-        return householdExpenseRepository.findByYearAndMonthOrderByExpenseDateDescIdDesc(year, month);
-    }
-
-    // 年月が指定されていない場合は現在月、指定されている場合はその月のデータを取得
-    public List<HouseholdExpense> getExpensesByYearAndMonth(Integer year, Integer month) {
-        if (year == null || month == null) {
-            LocalDate now = LocalDate.now();
-            return getExpensesByYearAndMonth(now.getYear(), now.getMonthValue());
-        }
-        return getExpensesByYearAndMonth(year.intValue(), month.intValue());
+    /**
+     * 指定した年月の家計簿データを取得します。
+     *
+     * @param targetYm 取得対象の年月（YearMonth形式）
+     * @return 指定年月内の家計簿データのリスト（降順で並び替え済み）
+     */
+    public List<HouseholdExpense> getExpensesByYearAndMonth(YearMonth targetYm) {
+        return householdExpenseRepository.findByExpenseDateBetweenOrderByExpenseDateDescIdDesc(
+                targetYm.atDay(1), targetYm.atEndOfMonth()
+        );
     }
 
     // IDで家計簿データを取得

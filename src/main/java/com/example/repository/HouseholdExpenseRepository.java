@@ -2,19 +2,20 @@ package com.example.repository;
 
 import com.example.entity.HouseholdExpense;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
 public interface HouseholdExpenseRepository extends JpaRepository<HouseholdExpense, Long> {
-    
-    // 支出日の降順でソートして全て取得
-    List<HouseholdExpense> findAllByOrderByExpenseDateDescIdDesc();
-    
-    // 指定年月の支出データを取得（支出日の降順でソート）
-    @Query("SELECT h FROM HouseholdExpense h WHERE YEAR(h.expenseDate) = :year AND MONTH(h.expenseDate) = :month ORDER BY h.expenseDate DESC, h.id DESC")
-    List<HouseholdExpense> findByYearAndMonthOrderByExpenseDateDescIdDesc(@Param("year") int year, @Param("month") int month);
+
+    /**
+     * 指定した日付範囲内の家計データを、支出日降順・ID降順で取得します。
+     *
+     * @param startDate 検索開始日
+     * @param endDate   検索終了日
+     * @return 支出日が指定範囲内の家計費リスト（支出日降順・ID降順）
+     */
+    List<HouseholdExpense> findByExpenseDateBetweenOrderByExpenseDateDescIdDesc(LocalDate startDate, LocalDate endDate);
 }
