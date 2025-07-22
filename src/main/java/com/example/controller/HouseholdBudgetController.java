@@ -2,6 +2,8 @@ package com.example.controller;
 
 import com.example.entity.HouseholdBudget;
 import com.example.service.HouseholdBudgetService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/household-budget")
 public class HouseholdBudgetController {
+
+    private static final Logger logger = LoggerFactory.getLogger(HouseholdBudgetController.class);
 
     /**
      * リダイレクト用パス定数
@@ -84,11 +88,13 @@ public class HouseholdBudgetController {
      */
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
-        HouseholdBudget householdBudget = householdBudgetService.getHouseholdBudgetById(id).orElse(null);
-        if (householdBudget == null) {
+        try {
+            HouseholdBudget householdBudget = householdBudgetService.getHouseholdBudgetById(id).orElseThrow();
+            model.addAttribute("householdBudget", householdBudget);
+        } catch (Exception e) {
+            logger.error("家計予算の取得に失敗しました。id: {}", id, e);
             return REDIRECT_HOUSEHOLD_BUDGET;
         }
-        model.addAttribute("householdBudget", householdBudget);
         return "household-budget/edit";
     }
 
