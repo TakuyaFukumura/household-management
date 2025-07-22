@@ -32,7 +32,7 @@
                 <tbody>
                     <tr th:each="idealBudget : ${idealBudgets}">
                         <td th:text="${idealBudget.category}"></td>
-                        <td th:text="${'¥' + #numbers.formatInteger(idealBudget.budgetAmount, 0)}" class="text-end"></td>
+                        <td th:text="${'¥' + #numbers.formatInteger(idealBudget.amount, 0)}" class="text-end"></td>
                         <td>
                             <a th:href="@{/ideal-budget/edit/{id}(id=${idealBudget.id})}" class="btn btn-warning btn-sm me-1">編集</a>
                             <form th:action="@{/ideal-budget/delete/{id}(id=${idealBudget.id})}" method="post" class="d-inline">
@@ -47,7 +47,7 @@
                 <tfoot th:if="${!#lists.isEmpty(idealBudgets)}">
                     <tr class="table-secondary">
                         <th>合計</th>
-                        <th th:text="${'¥' + #numbers.formatInteger(#aggregates.sum(idealBudgets.![budgetAmount]), 0)}" class="text-end"></th>
+                        <th th:text="${'¥' + #numbers.formatInteger(#aggregates.sum(idealBudgets.![amount]), 0)}" class="text-end"></th>
                         <th></th>
                     </tr>
                 </tfoot>

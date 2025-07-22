@@ -37,7 +37,7 @@ public class IdealBudget {
      * 予算金額
      */
     @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal budgetAmount;//amountだけでよさそう
+    private BigDecimal amount;
 
     /**
      * 作成日時
