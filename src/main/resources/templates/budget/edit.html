@@ -17,7 +17,7 @@
                         <h2 class="mb-0">予算編集</h2>
                     </div>
                     <div class="card-body">
-                        <form th:action="@{/household-budget/edit/{id}(id=${householdBudget.id})}" th:object="${householdBudget}" method="post">
+                        <form th:action="@{/budget/edit/{id}(id=${householdBudget.id})}" th:object="${householdBudget}" method="post">
                             <div class="mb-3">
                                 <label for="category" class="form-label">カテゴリ <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="category" th:field="*{category}" required>
@@ -35,7 +35,7 @@
                             </div>
                             
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                <a th:href="@{/household-budget}" class="btn btn-secondary me-md-2">キャンセル</a>
+                                <a th:href="@{/budget}" class="btn btn-secondary me-md-2">キャンセル</a>
                                 <button type="submit" class="btn btn-primary">更新</button>
                             </div>
                         </form>

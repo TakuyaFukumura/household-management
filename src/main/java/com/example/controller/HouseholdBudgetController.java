@@ -19,7 +19,7 @@ import java.util.List;
  * 家計予算の一覧表示、新規追加、編集、削除の各機能を提供します。
  */
 @Controller
-@RequestMapping("/household-budget")
+@RequestMapping("/budget")
 public class HouseholdBudgetController {
 
     private static final Logger logger = LoggerFactory.getLogger(HouseholdBudgetController.class);
@@ -27,7 +27,7 @@ public class HouseholdBudgetController {
     /**
      * リダイレクト用パス定数
      */
-    private static final String REDIRECT_HOUSEHOLD_BUDGET = "redirect:/household-budget";
+    private static final String REDIRECT_HOUSEHOLD_BUDGET = "redirect:/budget";
 
     /**
      * 家計予算サービス
@@ -53,7 +53,7 @@ public class HouseholdBudgetController {
     public String listHouseholdBudgets(Model model) {
         List<HouseholdBudget> householdBudgets = householdBudgetService.getAllHouseholdBudgets();
         model.addAttribute("householdBudgets", householdBudgets);
-        return "household-budget/list";
+        return "budget/list";
     }
 
     /**
@@ -65,7 +65,7 @@ public class HouseholdBudgetController {
     @GetMapping("/add")
     public String showAddForm(Model model) {
         model.addAttribute("householdBudget", new HouseholdBudget());
-        return "household-budget/add";
+        return "budget/add";
     }
 
     /**
@@ -97,7 +97,7 @@ public class HouseholdBudgetController {
             logger.error("家計予算の取得に失敗しました。id: {}", id, e);
             return REDIRECT_HOUSEHOLD_BUDGET;
         }
-        return "household-budget/edit";
+        return "budget/edit";
     }
 
     /**
