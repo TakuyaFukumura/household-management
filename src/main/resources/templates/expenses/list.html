@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
 <head>
     <title>家計簿 - 支出一覧</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -13,6 +13,48 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1 class="mb-0">家計簿 - 支出一覧</h1>
             <a th:href="@{/expenses/add}" class="btn btn-primary">新規追加</a>
+        </div>
+
+        <!-- 年月選択フィルター -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center">
+                            <!-- 前月ボタン -->
+                            <a th:href="@{/expenses(year=${prevYear}, month=${prevMonth})}" class="btn btn-outline-secondary me-2">
+                                <i class="bi bi-chevron-left"></i>◀
+                            </a>
+                            
+                            <!-- 現在の年月表示 -->
+                            <h5 class="mb-0 me-2" th:text="${currentYear} + '年' + ${currentMonth} + '月'"></h5>
+                            
+                            <!-- 次月ボタン -->
+                            <a th:href="@{/expenses(year=${nextYear}, month=${nextMonth})}" class="btn btn-outline-secondary">
+                                ▶<i class="bi bi-chevron-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <!-- 年月直接指定フォーム -->
+                        <form th:action="@{/expenses}" method="get" class="d-flex">
+                            <select name="year" class="form-select me-2" th:value="${currentYear}">
+                                <option th:each="y : ${#numbers.sequence(2020, 2030)}" 
+                                        th:value="${y}" 
+                                        th:text="${y} + '年'" 
+                                        th:selected="${y == currentYear}"></option>
+                            </select>
+                            <select name="month" class="form-select me-2" th:value="${currentMonth}">
+                                <option th:each="m : ${#numbers.sequence(1, 12)}" 
+                                        th:value="${m}" 
+                                        th:text="${m} + '月'" 
+                                        th:selected="${m == currentMonth}"></option>
+                            </select>
+                            <button type="submit" class="btn btn-outline-primary">表示</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="table-responsive">
@@ -40,7 +82,7 @@
                         </td>
                     </tr>
                     <tr th:if="${#lists.isEmpty(expenses)}">
-                        <td colspan="5" class="text-center text-muted">データがありません</td>
+                        <td colspan="5" class="text-center text-muted">指定された年月にはデータがありません</td>
                     </tr>
                 </tbody>
             </table>

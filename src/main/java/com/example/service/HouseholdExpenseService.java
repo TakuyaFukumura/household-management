@@ -4,6 +4,7 @@ import com.example.entity.HouseholdExpense;
 import com.example.repository.HouseholdExpenseRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.YearMonth;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,9 +17,16 @@ public class HouseholdExpenseService {
         this.householdExpenseRepository = householdExpenseRepository;
     }
 
-    // 全ての家計簿データを取得
-    public List<HouseholdExpense> getAllExpenses() {
-        return householdExpenseRepository.findAllByOrderByExpenseDateDescIdDesc();
+    /**
+     * 指定した年月の家計簿データを取得します。
+     *
+     * @param targetYm 取得対象の年月（YearMonth形式）
+     * @return 指定年月内の家計簿データのリスト（降順で並び替え済み）
+     */
+    public List<HouseholdExpense> getExpensesByYearAndMonth(YearMonth targetYm) {
+        return householdExpenseRepository.findByExpenseDateBetweenOrderByExpenseDateDescIdDesc(
+                targetYm.atDay(1), targetYm.atEndOfMonth()
+        );
     }
 
     // IDで家計簿データを取得
