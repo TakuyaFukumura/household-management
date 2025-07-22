@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.beans.PropertyEditorSupport;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -39,11 +41,44 @@ public class HouseholdExpenseController {
         });
     }
 
-    // 家計簿一覧表示
+    /**
+     * 家計簿一覧を表示する。
+     * 年月（year, month）が指定された場合はその年月のデータを表示し、
+     * 指定がない場合は現在の年月のデータを表示します。
+     * 前月・次月の情報もモデルに追加します。
+     *
+     * @param year  表示する年（任意）
+     * @param month 表示する月（任意）
+     * @param model 画面表示用のモデル
+     * @return 家計簿一覧画面のビュー名
+     */
     @GetMapping
-    public String listExpenses(Model model) {
-        List<HouseholdExpense> expenses = householdExpenseService.getAllExpenses();
+    public String listExpenses(
+            @RequestParam(value = "year", required = false) Integer year,
+            @RequestParam(value = "month", required = false) Integer month,
+            Model model) {
+        
+        // 年月が指定されていない場合は現在月を使用
+        YearMonth targetYm = YearMonth.now();
+        if (year != null && month != null) {
+            targetYm = YearMonth.of(year, month);
+        }
+        
+        List<HouseholdExpense> expenses = householdExpenseService.getExpensesByYearAndMonth(targetYm);
+        
         model.addAttribute("expenses", expenses);
+        model.addAttribute("currentYear", targetYm.getYear());
+        model.addAttribute("currentMonth", targetYm.getMonthValue());
+        
+        // 前月・次月の計算
+        YearMonth prevMonth = targetYm.minusMonths(1);
+        model.addAttribute("prevYear", prevMonth.getYear());
+        model.addAttribute("prevMonth", prevMonth.getMonthValue());
+
+        YearMonth nextMonth = targetYm.plusMonths(1);
+        model.addAttribute("nextYear", nextMonth.getYear());
+        model.addAttribute("nextMonth", nextMonth.getMonthValue());
+        
         return "expenses/list";
     }
 
