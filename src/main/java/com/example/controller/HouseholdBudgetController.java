@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -52,7 +53,11 @@ public class HouseholdBudgetController {
     @GetMapping
     public String listHouseholdBudgets(Model model) {
         List<HouseholdBudget> householdBudgets = householdBudgetService.getAllHouseholdBudgets();
+        BigDecimal totalAmount = householdBudgets.stream()
+                .map(HouseholdBudget::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
         model.addAttribute("householdBudgets", householdBudgets);
+        model.addAttribute("totalAmount", totalAmount);
         return "budget/list";
     }
 

@@ -48,7 +48,7 @@
                 <tfoot th:if="${!#lists.isEmpty(householdBudgets)}">
                     <tr class="table-secondary">
                         <th>合計</th>
-                        <th th:text="${'¥' + #numbers.formatInteger(#aggregates.sum(householdBudgets.![amount]), 0)}" class="text-end"></th>
+                        <th th:text="${'¥' + #numbers.formatInteger(totalAmount, 0)}" class="text-end"></th>
                         <th></th>
                     </tr>
                 </tfoot>
