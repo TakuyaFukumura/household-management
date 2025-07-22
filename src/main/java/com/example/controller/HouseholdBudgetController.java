@@ -3,8 +3,6 @@ package com.example.controller;
 import com.example.entity.HouseholdBudget;
 import com.example.service.HouseholdBudgetService;
 import jakarta.persistence.EntityNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +20,6 @@ import java.util.List;
 @Controller
 @RequestMapping("/budget")
 public class HouseholdBudgetController {
-
-    private static final Logger logger = LoggerFactory.getLogger(HouseholdBudgetController.class);
 
     /**
      * リダイレクト用パス定数
