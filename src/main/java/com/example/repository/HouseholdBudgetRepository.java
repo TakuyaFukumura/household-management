@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * 家計予算のDB操作（検索・保存・削除等）を提供します。
@@ -20,11 +19,4 @@ public interface HouseholdBudgetRepository extends JpaRepository<HouseholdBudget
      */
     List<HouseholdBudget> findAllByOrderByCategory();
 
-    /**
-     * カテゴリ名で家計予算を検索します。
-     *
-     * @param category カテゴリ名
-     * @return 該当する家計予算（Optional）
-     */
-    Optional<HouseholdBudget> findByCategory(String category);
 }
