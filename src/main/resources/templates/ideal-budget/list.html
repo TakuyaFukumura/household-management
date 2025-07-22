@@ -12,7 +12,7 @@
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1 class="mb-0">理想の家計簿 - 予算一覧</h1>
-            <a th:href="@{/ideal-budget/add}" class="btn btn-primary">新規追加</a>
+            <a th:href="@{/household-budget/add}" class="btn btn-primary">新規追加</a>
         </div>
 
         <div class="alert alert-info" role="alert">
@@ -34,8 +34,8 @@
                         <td th:text="${householdBudget.category}"></td>
                         <td th:text="${'¥' + #numbers.formatInteger(householdBudget.amount, 0)}" class="text-end"></td>
                         <td>
-                            <a th:href="@{/ideal-budget/edit/{id}(id=${householdBudget.id})}" class="btn btn-warning btn-sm me-1">編集</a>
-                            <form th:action="@{/ideal-budget/delete/{id}(id=${householdBudget.id})}" method="post" class="d-inline">
+                            <a th:href="@{/household-budget/edit/{id}(id=${householdBudget.id})}" class="btn btn-warning btn-sm me-1">編集</a>
+                            <form th:action="@{/household-budget/delete/{id}(id=${householdBudget.id})}" method="post" class="d-inline">
                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('削除してもよろしいですか？')">削除</button>
                             </form>
                         </td>

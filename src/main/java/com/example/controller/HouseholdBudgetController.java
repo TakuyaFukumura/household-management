@@ -17,13 +17,13 @@ import java.util.List;
  * 理想家計簿の一覧表示、新規追加、編集、削除の各機能を提供します。
  */
 @Controller
-@RequestMapping("/ideal-budget")
+@RequestMapping("/household-budget")
 public class HouseholdBudgetController {
 
     /**
      * リダイレクト用パス定数。
      */
-    private static final String REDIRECT_IDEAL_BUDGET = "redirect:/ideal-budget";
+    private static final String REDIRECT_HOUSEHOLD_BUDGET = "redirect:/household-budget";
 
     /**
      * 理想家計簿サービス。
@@ -47,7 +47,7 @@ public class HouseholdBudgetController {
     public String listHouseholdBudgets(Model model) {
         List<HouseholdBudget> householdBudgets = householdBudgetService.getAllHouseholdBudgets();
         model.addAttribute("HouseholdBudgets", householdBudgets);
-        return "ideal-budget/list";
+        return "household-budget/list";
     }
 
     /**
@@ -58,7 +58,7 @@ public class HouseholdBudgetController {
     @GetMapping("/add")
     public String showAddForm(Model model) {
         model.addAttribute("HouseholdBudget", new HouseholdBudget());
-        return "ideal-budget/add";
+        return "household-budget/add";
     }
 
     /**
@@ -69,7 +69,7 @@ public class HouseholdBudgetController {
     @PostMapping("/add")
     public String addHouseholdBudget(@ModelAttribute HouseholdBudget householdBudget) {
         householdBudgetService.saveHouseholdBudget(householdBudget);
-        return REDIRECT_IDEAL_BUDGET;
+        return REDIRECT_HOUSEHOLD_BUDGET;
     }
 
     /**
@@ -82,10 +82,10 @@ public class HouseholdBudgetController {
     public String showEditForm(@PathVariable Long id, Model model) {
         HouseholdBudget householdBudget = householdBudgetService.getHouseholdBudgetById(id).orElse(null);
         if (householdBudget == null) {
-            return REDIRECT_IDEAL_BUDGET;
+            return REDIRECT_HOUSEHOLD_BUDGET;
         }
         model.addAttribute("HouseholdBudget", householdBudget);
-        return "ideal-budget/edit";
+        return "household-budget/edit";
     }
 
     /**
@@ -98,7 +98,7 @@ public class HouseholdBudgetController {
     public String updateHouseholdBudget(@PathVariable Long id, @ModelAttribute HouseholdBudget householdBudget) {
         householdBudget.setId(id);
         householdBudgetService.saveHouseholdBudget(householdBudget);
-        return REDIRECT_IDEAL_BUDGET;
+        return REDIRECT_HOUSEHOLD_BUDGET;
     }
 
     /**
@@ -109,6 +109,6 @@ public class HouseholdBudgetController {
     @PostMapping("/delete/{id}")
     public String deleteHouseholdBudget(@PathVariable Long id) {
         householdBudgetService.deleteHouseholdBudget(id);
-        return REDIRECT_IDEAL_BUDGET;
+        return REDIRECT_HOUSEHOLD_BUDGET;
     }
 }
