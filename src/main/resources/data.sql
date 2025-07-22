@@ -11,7 +11,7 @@ INSERT INTO household_expenses (expense_date, category, amount, description) VAL
 ('2025-08-23', '娯楽費', 2500.00, '映画鑑賞'),
 ('2025-09-24', '食費', 1800.00, '食材購入');
 
--- 理想家計簿テストデータ
+-- 家計予算テストデータ
 INSERT INTO household_budgets (category, amount) VALUES
 ('住居費', 42000.00),
 ('食費', 30000.00),

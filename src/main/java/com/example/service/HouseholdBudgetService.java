@@ -8,19 +8,19 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * 家計予算のサービスクラス。
- * データ取得・保存・削除などのビジネスロジックを提供します。
+ * 家計予算のデータ取得・保存・削除などのビジネスロジックを提供します。
  */
 @Service
 public class HouseholdBudgetService {
 
     /**
-     * 家計予算リポジトリ。
+     * 家計予算リポジトリ
      */
     private final HouseholdBudgetRepository householdBudgetRepository;
 
     /**
-     * コンストラクタ。
+     * コンストラクタ
+     *
      * @param householdBudgetRepository 家計予算リポジトリ
      */
     public HouseholdBudgetService(HouseholdBudgetRepository householdBudgetRepository) {
@@ -28,7 +28,8 @@ public class HouseholdBudgetService {
     }
 
     /**
-     * 全ての理想予算データをカテゴリ名でソートして取得します。
+     * 全ての家計予算データをカテゴリ名でソートして取得します。
+     *
      * @return 家計予算リスト
      */
     public List<HouseholdBudget> getAllHouseholdBudgets() {
@@ -36,7 +37,8 @@ public class HouseholdBudgetService {
     }
 
     /**
-     * IDで理想予算データを取得します。
+     * IDで家計予算データを取得します。
+     *
      * @param id 家計予算ID
      * @return 該当する家計予算（Optional）
      */
@@ -45,16 +47,8 @@ public class HouseholdBudgetService {
     }
 
     /**
-     * カテゴリ名で理想予算データを取得します。
-     * @param category カテゴリ名
-     * @return 該当する家計予算（Optional）
-     */
-    public Optional<HouseholdBudget> getHouseholdBudgetByCategory(String category) {
-        return householdBudgetRepository.findByCategory(category);
-    }
-
-    /**
-     * 理想予算データを保存または更新します。
+     * 家計予算データを保存または更新します。
+     *
      * @param householdBudget 保存・更新する家計予算
      */
     public void saveHouseholdBudget(HouseholdBudget householdBudget) {
@@ -62,8 +56,9 @@ public class HouseholdBudgetService {
     }
 
     /**
-     * 理想予算データを削除します。
-     * @param id 削除する家計予算ID
+     * 家計予算データを削除します。
+     *
+     * @param id 削除対象の家計予算ID
      */
     public void deleteHouseholdBudget(Long id) {
         householdBudgetRepository.deleteById(id);

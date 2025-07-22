@@ -13,33 +13,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 /**
- * 理想家計簿のコントローラークラス。
- * 理想家計簿の一覧表示、新規追加、編集、削除の各機能を提供します。
+ * 家計予算の一覧表示、新規追加、編集、削除の各機能を提供します。
  */
 @Controller
 @RequestMapping("/household-budget")
 public class HouseholdBudgetController {
 
     /**
-     * リダイレクト用パス定数。
+     * リダイレクト用パス定数
      */
     private static final String REDIRECT_HOUSEHOLD_BUDGET = "redirect:/household-budget";
 
     /**
-     * 理想家計簿サービス。
+     * 家計予算サービス
      */
     private final HouseholdBudgetService householdBudgetService;
 
     /**
-     * コンストラクタ。
-     * @param householdBudgetService 理想家計簿サービス
+     * コンストラクタ
+     *
+     * @param householdBudgetService 家計予算サービス
      */
     public HouseholdBudgetController(HouseholdBudgetService householdBudgetService) {
         this.householdBudgetService = householdBudgetService;
     }
 
     /**
-     * 理想家計簿一覧表示。
+     * 家計予算一覧表示
+     *
      * @param model モデル
      * @return 一覧画面テンプレート名
      */
@@ -51,7 +52,8 @@ public class HouseholdBudgetController {
     }
 
     /**
-     * 新規追加フォーム表示。
+     * 新規追加フォーム表示
+     *
      * @param model モデル
      * @return 新規追加画面テンプレート名
      */
@@ -62,8 +64,9 @@ public class HouseholdBudgetController {
     }
 
     /**
-     * 新規追加処理。
-     * @param householdBudget 追加する理想家計簿
+     * 新規追加処理
+     *
+     * @param householdBudget 追加する家計予算
      * @return リダイレクト先
      */
     @PostMapping("/add")
@@ -73,8 +76,9 @@ public class HouseholdBudgetController {
     }
 
     /**
-     * 編集フォーム表示。
-     * @param id 編集対象ID
+     * 編集フォーム表示
+     *
+     * @param id    編集対象の家計予算ID
      * @param model モデル
      * @return 編集画面テンプレート名またはリダイレクト
      */
@@ -89,8 +93,9 @@ public class HouseholdBudgetController {
     }
 
     /**
-     * 編集処理。
-     * @param id 編集対象ID
+     * 編集処理
+     *
+     * @param id              編集対象の家計予算ID
      * @param householdBudget 編集内容
      * @return リダイレクト先
      */
@@ -102,8 +107,9 @@ public class HouseholdBudgetController {
     }
 
     /**
-     * 削除処理。
-     * @param id 削除対象ID
+     * 削除処理
+     *
+     * @param id 削除対象の家計予算ID
      * @return リダイレクト先
      */
     @PostMapping("/delete/{id}")

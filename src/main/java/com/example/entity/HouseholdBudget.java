@@ -28,7 +28,7 @@ public class HouseholdBudget {
     private Long id;
 
     /**
-     * 予算カテゴリ
+     * カテゴリ名
      */
     @Column(nullable = false, length = 100, unique = true)
     private String category;
