@@ -94,14 +94,9 @@ public class HouseholdBudgetController {
      */
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
-        try {
-            HouseholdBudget householdBudget = householdBudgetService.getHouseholdBudgetById(id)
-                    .orElseThrow(() -> new EntityNotFoundException("家計予算が見つかりません。id: " + id));
-            model.addAttribute("householdBudget", householdBudget);
-        } catch (Exception e) {
-            logger.error("家計予算の取得に失敗しました。id: {}", id, e);
-            return REDIRECT_HOUSEHOLD_BUDGET;
-        }
+        HouseholdBudget householdBudget = householdBudgetService.getHouseholdBudgetById(id)
+                .orElseThrow(() -> new EntityNotFoundException("家計予算が見つかりません。id: " + id));
+        model.addAttribute("householdBudget", householdBudget);
         return "budget/edit";
     }
 
