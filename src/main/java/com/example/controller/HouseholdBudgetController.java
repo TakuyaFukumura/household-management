@@ -46,7 +46,7 @@ public class HouseholdBudgetController {
     @GetMapping
     public String listHouseholdBudgets(Model model) {
         List<HouseholdBudget> householdBudgets = householdBudgetService.getAllHouseholdBudgets();
-        model.addAttribute("HouseholdBudgets", householdBudgets);
+        model.addAttribute("householdBudgets", householdBudgets);
         return "household-budget/list";
     }
 
@@ -57,7 +57,7 @@ public class HouseholdBudgetController {
      */
     @GetMapping("/add")
     public String showAddForm(Model model) {
-        model.addAttribute("HouseholdBudget", new HouseholdBudget());
+        model.addAttribute("householdBudget", new HouseholdBudget());
         return "household-budget/add";
     }
 
@@ -84,7 +84,7 @@ public class HouseholdBudgetController {
         if (householdBudget == null) {
             return REDIRECT_HOUSEHOLD_BUDGET;
         }
-        model.addAttribute("HouseholdBudget", householdBudget);
+        model.addAttribute("householdBudget", householdBudget);
         return "household-budget/edit";
     }
 
