@@ -3,6 +3,8 @@ package com.example.controller;
 import com.example.entity.HouseholdBudget;
 import com.example.service.HouseholdBudgetService;
 import jakarta.persistence.EntityNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +22,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/budget")
 public class HouseholdBudgetController {
+
+    private static final Logger logger = LoggerFactory.getLogger(HouseholdBudgetController.class);
 
     /**
      * リダイレクト用パス定数
@@ -91,7 +95,10 @@ public class HouseholdBudgetController {
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
         HouseholdBudget householdBudget = householdBudgetService.getHouseholdBudgetById(id)
-                .orElseThrow(() -> new EntityNotFoundException("家計予算が見つかりません。id: " + id));
+                .orElseThrow(() -> {
+                    logger.error("家計予算が見つかりません。id: {}", id);
+                    return new EntityNotFoundException("家計予算が見つかりません。");
+                });
         model.addAttribute("householdBudget", householdBudget);
         return "budget/edit";
     }
