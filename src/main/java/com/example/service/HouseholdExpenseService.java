@@ -1,12 +1,16 @@
 package com.example.service;
 
+import com.example.dto.ChartDataDto;
 import com.example.entity.HouseholdExpense;
 import com.example.repository.HouseholdExpenseRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.YearMonth;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class HouseholdExpenseService {
@@ -27,6 +31,30 @@ public class HouseholdExpenseService {
         return householdExpenseRepository.findByExpenseDateBetweenOrderByExpenseDateDescIdDesc(
                 targetYm.atDay(1), targetYm.atEndOfMonth()
         );
+    }
+
+    /**
+     * 指定した年月の支出をカテゴリ別に集計してチャート用データを取得します。
+     *
+     * @param targetYm 取得対象の年月（YearMonth形式）
+     * @return カテゴリ別集計データのリスト
+     */
+    public List<ChartDataDto> getExpenseChartDataByYearAndMonth(YearMonth targetYm) {
+        List<HouseholdExpense> expenses = getExpensesByYearAndMonth(targetYm);
+        
+        Map<String, BigDecimal> categorySum = expenses.stream()
+                .collect(Collectors.groupingBy(
+                        HouseholdExpense::getCategory,
+                        Collectors.reducing(
+                                BigDecimal.ZERO,
+                                HouseholdExpense::getAmount,
+                                BigDecimal::add
+                        )
+                ));
+        
+        return categorySum.entrySet().stream()
+                .map(entry -> new ChartDataDto(entry.getKey(), entry.getValue()))
+                .collect(Collectors.toList());
     }
 
     // IDで家計簿データを取得
