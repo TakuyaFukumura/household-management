@@ -40,6 +40,8 @@ Spring Boot を使用した家計管理アプリケーションです。日々�
 ### リポジトリのクローン
 ```bash
 git clone https://github.com/TakuyaFukumura/household-management.git
+```
+```bash
 cd household-management
 ```
 
@@ -56,15 +58,16 @@ cd household-management
 ```
 
 ### 実行可能 JAR の作成と実行
+- JAR ファイルの作成
 ```bash
-# JAR ファイルの作成
 ./mvnw clean package
-
-# JAR ファイルの実行
+```
+- JAR ファイルの実行
+```bash
 java -jar ./target/*.jar
 ```
 
-アプリケーションが起動したら、ブラウザで `http://localhost:8080` にアクセスしてください。
+アプリケーションが起動したら、ブラウザで http://localhost:8080 にアクセスしてください。
 
 ## テスト
 
@@ -73,24 +76,16 @@ java -jar ./target/*.jar
 ./mvnw test
 ```
 
-現在 10 件のテストが実装されており、コントローラ層の動作を検証しています。
 
 ## データベース
 
 ### H2 Database
 本アプリケーションは H2 インメモリデータベースを使用しています。
 
-#### データベース設定
-- **データベース URL**: `jdbc:h2:./h2db/h2`
-- **ユーザー名**: `super`
-- **パスワード**: （空文字）
-
 #### H2 コンソールへのアクセス
 H2 コンソールは既定で有効になっています。以下の URL からアクセス可能です：
 
-```
 http://localhost:8080/h2-console/
-```
 
 H2 コンソールを無効にする場合は、`application.properties` で以下を設定してください：
 ```properties
@@ -128,17 +123,7 @@ src/
 ## スクリーンショット
 
 ### 支出一覧画面
-![支出一覧](https://github.com/user-attachments/assets/e37e72bc-2d8c-4fb7-86a8-492dc89819ad)
+準備中
 
 ### 予算一覧画面  
-![予算一覧](https://github.com/user-attachments/assets/5abd77de-2fe6-4c39-aa28-eacdeaa9fde6)
-
-## バージョン情報
-
-- **現在のバージョン**: 0.14.0
-- **Spring Boot**: 3.5.3
-- **Java**: 17
-
-## ライセンス
-
-このプロジェクトのライセンス情報については、リポジトリをご確認ください。
+準備中
