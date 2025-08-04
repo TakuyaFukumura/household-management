@@ -76,6 +76,82 @@ java -jar ./target/*.jar
 ./mvnw test
 ```
 
+## Docker での開発環境
+
+### 前提条件
+
+- Docker
+- Docker Compose
+
+### Docker イメージのビルドと起動
+
+**重要**: Dockerfileはビルド済みのJARファイルを使用するため、事前にアプリケーションをビルドしてください。
+
+```bash
+# アプリケーションを事前にビルド
+./mvnw clean package -DskipTests
+```
+
+#### Docker Compose を使用した起動（推奨）
+```bash
+# アプリケーションをビルドして起動
+docker compose up --build
+
+# バックグラウンドで起動
+docker compose up -d --build
+
+# ログを確認
+docker compose logs -f
+
+# 停止
+docker compose down
+```
+
+**注意**: 古い `docker-compose` コマンドも使用可能ですが、新しい `docker compose` コマンドを推奨します。
+
+#### Docker コマンドを直接使用
+```bash
+# イメージをビルド
+docker build -t household-management .
+
+# コンテナを起動
+docker run -p 8080:8080 -v $(pwd)/h2db:/app/h2db household-management
+```
+
+### アクセス方法
+
+アプリケーションが起動したら、以下の URL からアクセスできます：
+
+- **メインアプリケーション**: http://localhost:8080
+- **H2 データベースコンソール**: http://localhost:8080/h2-console/
+
+### データの永続化
+
+Docker Compose 使用時、H2 データベースファイルは `./h2db` ディレクトリにマウントされ、コンテナを削除してもデータが保持されます。
+
+### トラブルシューティング
+
+#### ポートが使用中の場合
+```bash
+# 使用中のプロセスを確認
+lsof -i :8080
+
+# docker-compose.yml でポートを変更
+ports:
+  - "8081:8080"  # ホストポート8081にマッピング
+```
+
+#### コンテナのリビルド
+```bash
+# キャッシュを使わずにリビルド
+docker compose build --no-cache
+
+# または docker-compose を使用
+docker-compose build --no-cache
+
+# 不要なイメージを削除
+docker system prune
+```
 
 ## データベース
 

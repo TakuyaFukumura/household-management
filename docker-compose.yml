@@ -1,0 +1,26 @@
+services:
+  household-management:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: household-management-app
+    ports:
+      - "8080:8080"  # アプリケーション
+      - "8081:8081"  # H2コンソール（開発用）
+    volumes:
+      # H2データベースファイルを永続化
+      - ./h2db:/app/h2db
+      # 開発時のライブリロード用（オプション）
+      - ./src:/app/src:ro
+    environment:
+      # Spring Boot プロファイル
+      - SPRING_PROFILES_ACTIVE=docker
+      # JVMオプション（開発用）
+      - JAVA_OPTS=-Xmx512m -Xms256m
+    restart: unless-stopped
+    networks:
+      - household-net
+
+networks:
+  household-net:
+    driver: bridge
