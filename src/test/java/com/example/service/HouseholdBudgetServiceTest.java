@@ -45,16 +45,16 @@ class HouseholdBudgetServiceTest {
 
         // Then
         assertThat(result).hasSize(4);
-        
+
         assertThat(result.get(0).getCategory()).isEqualTo("住居費");
         assertThat(result.get(0).getAmount()).isEqualByComparingTo(new BigDecimal("42000"));
-        
+
         assertThat(result.get(1).getCategory()).isEqualTo("食費");
         assertThat(result.get(1).getAmount()).isEqualByComparingTo(new BigDecimal("30000"));
-        
+
         assertThat(result.get(2).getCategory()).isEqualTo("娯楽費");
         assertThat(result.get(2).getAmount()).isEqualByComparingTo(new BigDecimal("20000"));
-        
+
         assertThat(result.get(3).getCategory()).isEqualTo("光熱費");
         assertThat(result.get(3).getAmount()).isEqualByComparingTo(new BigDecimal("15000"));
     }

@@ -52,7 +52,7 @@ class HouseholdExpenseServiceTest {
 
         // Then
         assertThat(result).hasSize(3);
-        
+
         // カテゴリ別の集計結果を確認
         ChartDataDto foodData = result.stream()
                 .filter(data -> "食費".equals(data.getCategory()))
