@@ -7,7 +7,7 @@
             <a th:href="@{/}" class="navbar-brand">
                 家計管理
             </a>
-            <ul class="navbar-nav nav-underline">
+            <ul class="navbar-nav nav-underline me-auto">
                 <li class="nav-item">
                     <a th:href="@{/expenses}" class="nav-link text-white">
                         支出一覧
@@ -19,6 +19,11 @@
                     </a>
                 </li>
             </ul>
+            <div class="navbar-nav">
+                <button id="darkModeToggle" class="btn btn-outline-light" type="button" title="ダークモード切替">
+                    <span id="darkModeIcon">🌞</span>
+                </button>
+            </div>
         </div>
     </div>
 </nav>
