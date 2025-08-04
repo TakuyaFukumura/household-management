@@ -19,4 +19,10 @@ public interface HouseholdBudgetRepository extends JpaRepository<HouseholdBudget
      */
     List<HouseholdBudget> findAllByOrderByCategory();
 
+    /**
+     * 金額で降順ソートして全て取得します。
+     *
+     * @return 金額降順ソート済み家計予算リスト
+     */
+    List<HouseholdBudget> findAllByOrderByAmountDesc();
 }

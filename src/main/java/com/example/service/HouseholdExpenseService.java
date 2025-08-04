@@ -22,10 +22,10 @@ public class HouseholdExpenseService {
     }
 
     /**
-     * 指定した年月の家計簿データを取得します。
+     * 指定した年月の家計簿データを取得します（テーブル表示用・日付降順）。
      *
      * @param targetYm 取得対象の年月（YearMonth形式）
-     * @return 指定年月内の家計簿データのリスト（降順で並び替え済み）
+     * @return 指定年月内の家計簿データのリスト（日付降順で並び替え済み）
      */
     public List<HouseholdExpense> getExpensesByYearAndMonth(YearMonth targetYm) {
         return householdExpenseRepository.findByExpenseDateBetweenOrderByExpenseDateDescIdDesc(
@@ -35,12 +35,16 @@ public class HouseholdExpenseService {
 
     /**
      * 指定した年月の支出をカテゴリ別に集計してチャート用データを取得します。
+     * チャート用のため、金額の大きい順で集計します。
      *
      * @param targetYm 取得対象の年月（YearMonth形式）
-     * @return カテゴリ別集計データのリスト
+     * @return カテゴリ別集計データのリスト（金額降順）
      */
     public List<ChartDataDto> getExpenseChartDataByYearAndMonth(YearMonth targetYm) {
-        List<HouseholdExpense> expenses = getExpensesByYearAndMonth(targetYm);
+        // チャート用は金額降順でデータを取得
+        List<HouseholdExpense> expenses = householdExpenseRepository.findByExpenseDateBetweenOrderByAmountDesc(
+                targetYm.atDay(1), targetYm.atEndOfMonth()
+        );
         
         Map<String, BigDecimal> categorySum = expenses.stream()
                 .collect(Collectors.groupingBy(
@@ -52,8 +56,10 @@ public class HouseholdExpenseService {
                         )
                 ));
         
+        // カテゴリ別集計結果も金額の大きい順でソート
         return categorySum.entrySet().stream()
                 .map(entry -> new ChartDataDto(entry.getKey(), entry.getValue()))
+                .sorted((a, b) -> b.getAmount().compareTo(a.getAmount()))
                 .collect(Collectors.toList());
     }
 
