@@ -38,7 +38,7 @@ class HouseholdBudgetServiceTest {
                 new HouseholdBudget(4L, "光熱費", new BigDecimal("15000"), null, null)
         );
 
-        when(householdBudgetRepository.findAllByOrderByCategory()).thenReturn(budgets);
+        when(householdBudgetRepository.findAllByOrderByAmountDesc()).thenReturn(budgets);
 
         // When
         List<ChartDataDto> result = householdBudgetService.getBudgetChartData();
@@ -62,7 +62,7 @@ class HouseholdBudgetServiceTest {
     @Test
     void 予算チャートデータ取得_データが空の場合() {
         // Given
-        when(householdBudgetRepository.findAllByOrderByCategory()).thenReturn(Arrays.asList());
+        when(householdBudgetRepository.findAllByOrderByAmountDesc()).thenReturn(Arrays.asList());
 
         // When
         List<ChartDataDto> result = householdBudgetService.getBudgetChartData();
@@ -78,7 +78,7 @@ class HouseholdBudgetServiceTest {
                 new HouseholdBudget(1L, "食費", new BigDecimal("30000"), null, null)
         );
 
-        when(householdBudgetRepository.findAllByOrderByCategory()).thenReturn(budgets);
+        when(householdBudgetRepository.findAllByOrderByAmountDesc()).thenReturn(budgets);
 
         // When
         List<ChartDataDto> result = householdBudgetService.getBudgetChartData();
@@ -87,5 +87,28 @@ class HouseholdBudgetServiceTest {
         assertThat(result).hasSize(1);
         assertThat(result.get(0).getCategory()).isEqualTo("食費");
         assertThat(result.get(0).getAmount()).isEqualByComparingTo(new BigDecimal("30000"));
+    }
+
+    @Test
+    void 予算データ取得_金額降順ソート() {
+        // Given
+        List<HouseholdBudget> budgets = Arrays.asList(
+                new HouseholdBudget(1L, "住居費", new BigDecimal("42000"), null, null),
+                new HouseholdBudget(2L, "食費", new BigDecimal("30000"), null, null),
+                new HouseholdBudget(3L, "光熱費", new BigDecimal("15000"), null, null),
+                new HouseholdBudget(4L, "雑費", new BigDecimal("8000"), null, null)
+        );
+
+        when(householdBudgetRepository.findAllByOrderByAmountDesc()).thenReturn(budgets);
+
+        // When
+        List<HouseholdBudget> result = householdBudgetService.getAllHouseholdBudgets();
+
+        // Then
+        assertThat(result).hasSize(4);
+        assertThat(result.get(0).getAmount()).isEqualByComparingTo(new BigDecimal("42000")); // 最高額が最初
+        assertThat(result.get(1).getAmount()).isEqualByComparingTo(new BigDecimal("30000")); // 2番目に高い額
+        assertThat(result.get(2).getAmount()).isEqualByComparingTo(new BigDecimal("15000")); // 3番目に高い額
+        assertThat(result.get(3).getAmount()).isEqualByComparingTo(new BigDecimal("8000"));  // 最低額が最後
     }
 }

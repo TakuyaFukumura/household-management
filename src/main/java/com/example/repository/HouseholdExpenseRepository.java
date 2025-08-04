@@ -18,4 +18,13 @@ public interface HouseholdExpenseRepository extends JpaRepository<HouseholdExpen
      * @return 支出日が指定範囲内の家計費リスト（支出日降順・ID降順）
      */
     List<HouseholdExpense> findByExpenseDateBetweenOrderByExpenseDateDescIdDesc(LocalDate startDate, LocalDate endDate);
+
+    /**
+     * 指定した日付範囲内の家計データを、金額降順で取得します。
+     *
+     * @param startDate 検索開始日
+     * @param endDate   検索終了日
+     * @return 支出日が指定範囲内の家計費リスト（金額降順）
+     */
+    List<HouseholdExpense> findByExpenseDateBetweenOrderByAmountDesc(LocalDate startDate, LocalDate endDate);
 }

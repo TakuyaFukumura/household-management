@@ -25,10 +25,10 @@ public class HouseholdExpenseService {
      * 指定した年月の家計簿データを取得します。
      *
      * @param targetYm 取得対象の年月（YearMonth形式）
-     * @return 指定年月内の家計簿データのリスト（降順で並び替え済み）
+     * @return 指定年月内の家計簿データのリスト（金額降順で並び替え済み）
      */
     public List<HouseholdExpense> getExpensesByYearAndMonth(YearMonth targetYm) {
-        return householdExpenseRepository.findByExpenseDateBetweenOrderByExpenseDateDescIdDesc(
+        return householdExpenseRepository.findByExpenseDateBetweenOrderByAmountDesc(
                 targetYm.atDay(1), targetYm.atEndOfMonth()
         );
     }

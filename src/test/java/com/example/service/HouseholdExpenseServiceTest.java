@@ -44,7 +44,7 @@ class HouseholdExpenseServiceTest {
                 new HouseholdExpense(LocalDate.of(2025, 7, 4), "光熱費", new BigDecimal("8000"), "電気代")
         );
 
-        when(householdExpenseRepository.findByExpenseDateBetweenOrderByExpenseDateDescIdDesc(startDate, endDate))
+        when(householdExpenseRepository.findByExpenseDateBetweenOrderByAmountDesc(startDate, endDate))
                 .thenReturn(expenses);
 
         // When
@@ -83,7 +83,7 @@ class HouseholdExpenseServiceTest {
         LocalDate startDate = targetYm.atDay(1);
         LocalDate endDate = targetYm.atEndOfMonth();
 
-        when(householdExpenseRepository.findByExpenseDateBetweenOrderByExpenseDateDescIdDesc(startDate, endDate))
+        when(householdExpenseRepository.findByExpenseDateBetweenOrderByAmountDesc(startDate, endDate))
                 .thenReturn(Arrays.asList());
 
         // When
@@ -106,7 +106,7 @@ class HouseholdExpenseServiceTest {
                 new HouseholdExpense(LocalDate.of(2025, 7, 1), "食費", new BigDecimal("800"), "夕食")
         );
 
-        when(householdExpenseRepository.findByExpenseDateBetweenOrderByExpenseDateDescIdDesc(startDate, endDate))
+        when(householdExpenseRepository.findByExpenseDateBetweenOrderByAmountDesc(startDate, endDate))
                 .thenReturn(expenses);
 
         // When
@@ -116,5 +116,31 @@ class HouseholdExpenseServiceTest {
         assertThat(result).hasSize(1);
         assertThat(result.get(0).getCategory()).isEqualTo("食費");
         assertThat(result.get(0).getAmount()).isEqualByComparingTo(new BigDecimal("3000")); // 1000 + 1200 + 800
+    }
+
+    @Test
+    void 指定年月の支出データ取得_金額降順ソート() {
+        // Given
+        YearMonth targetYm = YearMonth.of(2025, 8);
+        LocalDate startDate = targetYm.atDay(1);
+        LocalDate endDate = targetYm.atEndOfMonth();
+
+        List<HouseholdExpense> expenses = Arrays.asList(
+                new HouseholdExpense(LocalDate.of(2025, 8, 1), "光熱費", new BigDecimal("15000"), "電気・ガス代"),
+                new HouseholdExpense(LocalDate.of(2025, 8, 2), "食費", new BigDecimal("8000"), "スーパーでの買い物"),
+                new HouseholdExpense(LocalDate.of(2025, 8, 3), "娯楽費", new BigDecimal("2500"), "映画鑑賞")
+        );
+
+        when(householdExpenseRepository.findByExpenseDateBetweenOrderByAmountDesc(startDate, endDate))
+                .thenReturn(expenses);
+
+        // When
+        List<HouseholdExpense> result = householdExpenseService.getExpensesByYearAndMonth(targetYm);
+
+        // Then
+        assertThat(result).hasSize(3);
+        assertThat(result.get(0).getAmount()).isEqualByComparingTo(new BigDecimal("15000")); // 最高額が最初
+        assertThat(result.get(1).getAmount()).isEqualByComparingTo(new BigDecimal("8000"));  // 中間額が2番目
+        assertThat(result.get(2).getAmount()).isEqualByComparingTo(new BigDecimal("2500"));  // 最低額が最後
     }
 }
