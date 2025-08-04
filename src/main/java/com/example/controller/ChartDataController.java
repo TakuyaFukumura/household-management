@@ -39,13 +39,13 @@ public class ChartDataController {
     public ResponseEntity<List<ChartDataDto>> getExpenseChartData(
             @RequestParam(value = "year", required = false) Integer year,
             @RequestParam(value = "month", required = false) Integer month) {
-        
+
         // 年月が指定されていない場合は現在月を使用
         YearMonth targetYm = YearMonth.now();
         if (year != null && month != null) {
             targetYm = YearMonth.of(year, month);
         }
-        
+
         List<ChartDataDto> chartData = householdExpenseService.getExpenseChartDataByYearAndMonth(targetYm);
         return ResponseEntity.ok(chartData);
     }
