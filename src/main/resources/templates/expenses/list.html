@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<html xmlns:th="http://www.thymeleaf.org" lang="ja" data-bs-theme="light">
 <head>
     <title>家計簿 - 支出一覧</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -188,5 +188,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
+<div th:replace="~{fragments/dark-mode :: dark-mode-script}"></div>
 </body>
 </html>
