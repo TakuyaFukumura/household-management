@@ -19,39 +19,51 @@ class HouseholdExpenseServiceSpec extends Specification {
     @Subject
     HouseholdExpenseService householdExpenseService = new HouseholdExpenseService(householdExpenseRepository)
 
-    def "支出チャートデータ取得_正常系"() {
+    def "年月で支出データ取得_正常系_日付降順ソート"() {
         given: "指定年月の支出データが複数存在する"
         def targetYm = YearMonth.of(2025, 7)
         def startDate = targetYm.atDay(1)
         def endDate = targetYm.atEndOfMonth()
         def expenses = [
-                new HouseholdExpense(LocalDate.of(2025, 7, 1), "食費", new BigDecimal("1000"), "朝食"),
+                new HouseholdExpense(LocalDate.of(2025, 7, 4), "光熱費", new BigDecimal("8000"), "電気代"),
                 new HouseholdExpense(LocalDate.of(2025, 7, 2), "食費", new BigDecimal("1500"), "昼食"),
-                new HouseholdExpense(LocalDate.of(2025, 7, 3), "交通費", new BigDecimal("500"), "電車代"),
-                new HouseholdExpense(LocalDate.of(2025, 7, 4), "光熱費", new BigDecimal("8000"), "電気代")
+                new HouseholdExpense(LocalDate.of(2025, 7, 1), "食費", new BigDecimal("1000"), "朝食")
         ]
         householdExpenseRepository.findByExpenseDateBetweenOrderByExpenseDateDescIdDesc(startDate, endDate) >> expenses
+
+        when: "年月で支出データを取得する"
+        def result = householdExpenseService.getExpensesByYearAndMonth(targetYm)
+
+        then: "日付降順でソートされたデータが返される"
+        result == expenses
+    }
+
+    def "支出チャートデータ取得_正常系_金額降順ソート"() {
+        given: "指定年月の支出データが複数存在する"
+        def targetYm = YearMonth.of(2025, 7)
+        def startDate = targetYm.atDay(1)
+        def endDate = targetYm.atEndOfMonth()
+        def expenses = [
+                new HouseholdExpense(LocalDate.of(2025, 7, 4), "光熱費", new BigDecimal("8000"), "電気代"),
+                new HouseholdExpense(LocalDate.of(2025, 7, 2), "食費", new BigDecimal("1500"), "昼食"),
+                new HouseholdExpense(LocalDate.of(2025, 7, 1), "食費", new BigDecimal("1000"), "朝食"),
+                new HouseholdExpense(LocalDate.of(2025, 7, 3), "交通費", new BigDecimal("500"), "電車代")
+        ]
+        householdExpenseRepository.findByExpenseDateBetweenOrderByAmountDesc(startDate, endDate) >> expenses
 
         when: "支出チャートデータを取得する"
         def result = householdExpenseService.getExpenseChartDataByYearAndMonth(targetYm)
 
-        then: "3つのカテゴリのチャートデータが返される"
+        then: "3つのカテゴリのチャートデータが金額降順で返される"
         result.size() == 3
 
-        and: "食費カテゴリが正しく集計されている"
-        def foodData = result.find { it.category == "食費" }
-        foodData != null
-        foodData.amount == new BigDecimal("2500") // 1000 + 1500
-
-        and: "交通費カテゴリが正しく設定されている"
-        def transportData = result.find { it.category == "交通費" }
-        transportData != null
-        transportData.amount == new BigDecimal("500")
-
-        and: "光熱費カテゴリが正しく設定されている"
-        def utilityData = result.find { it.category == "光熱費" }
-        utilityData != null
-        utilityData.amount == new BigDecimal("8000")
+        and: "チャートデータが金額降順でソートされている"
+        result[0].category == "光熱費"
+        result[0].amount == new BigDecimal("8000")
+        result[1].category == "食費"
+        result[1].amount == new BigDecimal("2500") // 1000 + 1500
+        result[2].category == "交通費"
+        result[2].amount == new BigDecimal("500")
     }
 
     def "支出チャートデータ取得_データが空の場合"() {
@@ -59,7 +71,7 @@ class HouseholdExpenseServiceSpec extends Specification {
         def targetYm = YearMonth.of(2025, 1)
         def startDate = targetYm.atDay(1)
         def endDate = targetYm.atEndOfMonth()
-        householdExpenseRepository.findByExpenseDateBetweenOrderByExpenseDateDescIdDesc(startDate, endDate) >> []
+        householdExpenseRepository.findByExpenseDateBetweenOrderByAmountDesc(startDate, endDate) >> []
 
         when: "支出チャートデータを取得する"
         def result = householdExpenseService.getExpenseChartDataByYearAndMonth(targetYm)
@@ -74,11 +86,11 @@ class HouseholdExpenseServiceSpec extends Specification {
         def startDate = targetYm.atDay(1)
         def endDate = targetYm.atEndOfMonth()
         def expenses = [
-                new HouseholdExpense(LocalDate.of(2025, 7, 1), "食費", new BigDecimal("1000"), "朝食"),
                 new HouseholdExpense(LocalDate.of(2025, 7, 1), "食費", new BigDecimal("1200"), "昼食"),
+                new HouseholdExpense(LocalDate.of(2025, 7, 1), "食費", new BigDecimal("1000"), "朝食"),
                 new HouseholdExpense(LocalDate.of(2025, 7, 1), "食費", new BigDecimal("800"), "夕食")
         ]
-        householdExpenseRepository.findByExpenseDateBetweenOrderByExpenseDateDescIdDesc(startDate, endDate) >> expenses
+        householdExpenseRepository.findByExpenseDateBetweenOrderByAmountDesc(startDate, endDate) >> expenses
 
         when: "支出チャートデータを取得する"
         def result = householdExpenseService.getExpenseChartDataByYearAndMonth(targetYm)
