@@ -1,6 +1,6 @@
 package com.example.service
 
-import com.example.dto.ChartDataDto
+
 import com.example.entity.HouseholdExpense
 import com.example.repository.HouseholdExpenseRepository
 import spock.lang.Specification
