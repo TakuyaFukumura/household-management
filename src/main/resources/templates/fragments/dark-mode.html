@@ -1,0 +1,58 @@
+<script th:fragment="dark-mode-script">
+// ダークモード切替機能
+(function() {
+    'use strict';
+    
+    const THEME_KEY = 'household-management-theme';
+    const LIGHT_THEME = 'light';
+    const DARK_THEME = 'dark';
+    const LIGHT_ICON = '🌞';
+    const DARK_ICON = '🌙';
+    
+    // 現在のテーマを取得
+    function getCurrentTheme() {
+        return localStorage.getItem(THEME_KEY) || LIGHT_THEME;
+    }
+    
+    // テーマを設定
+    function setTheme(theme) {
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        localStorage.setItem(THEME_KEY, theme);
+        updateIcon(theme);
+    }
+    
+    // アイコンを更新
+    function updateIcon(theme) {
+        const icon = document.getElementById('darkModeIcon');
+        if (icon) {
+            icon.textContent = theme === DARK_THEME ? LIGHT_ICON : DARK_ICON;
+        }
+    }
+    
+    // テーマを切り替え
+    function toggleTheme() {
+        const currentTheme = getCurrentTheme();
+        const newTheme = currentTheme === DARK_THEME ? LIGHT_THEME : DARK_THEME;
+        setTheme(newTheme);
+    }
+    
+    // 初期化処理
+    function initializeDarkMode() {
+        const currentTheme = getCurrentTheme();
+        setTheme(currentTheme);
+        
+        // ボタンのイベントリスナーを設定
+        const toggleButton = document.getElementById('darkModeToggle');
+        if (toggleButton) {
+            toggleButton.addEventListener('click', toggleTheme);
+        }
+    }
+    
+    // ページ読み込み時に初期化
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeDarkMode);
+    } else {
+        initializeDarkMode();
+    }
+})();
+</script>
