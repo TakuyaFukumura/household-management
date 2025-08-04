@@ -13,12 +13,12 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChartDataDto {
-    
+
     /**
      * カテゴリ名
      */
     private String category;
-    
+
     /**
      * 金額
      */
