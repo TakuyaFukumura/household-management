@@ -25,5 +25,4 @@ public interface HouseholdBudgetRepository extends JpaRepository<HouseholdBudget
      * @return 金額降順ソート済み家計予算リスト
      */
     List<HouseholdBudget> findAllByOrderByAmountDesc();
-
 }
