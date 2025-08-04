@@ -105,11 +105,10 @@
     </div>
 
 <script th:inline="javascript">
-/*<![CDATA[*/
 document.addEventListener('DOMContentLoaded', function() {
     // チャートデータを取得するための年月パラメータ
-    const currentYear = /*[[${currentYear}]]*/ new Date().getFullYear();
-    const currentMonth = /*[[${currentMonth}]]*/ new Date().getMonth() + 1;
+    const currentYear = /*[[${currentYear}]]*/;
+    const currentMonth = /*[[${currentMonth}]]*/;
     
     // Chart.jsでの円グラフ表示
     const ctx = document.getElementById('expenseChart');
@@ -188,7 +187,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 });
-/*]]>*/
 </script>
 </body>
 </html>
