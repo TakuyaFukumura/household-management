@@ -58,6 +58,20 @@
             </div>
         </div>
 
+        <!-- Chart Section -->
+        <div class="card mt-4" th:if="${!#lists.isEmpty(expenses)}">
+            <div class="card-header">
+                <h5 class="mb-0">カテゴリ別支出構成</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                        <canvas id="expenseChart" width="400" height="400"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="table-responsive">
             <table class="table table-striped table-hover">
                 <thead class="table-dark">
@@ -88,20 +102,7 @@
                 </tbody>
             </table>
         </div>
-        
-        <!-- Chart Section -->
-        <div class="card mt-4" th:if="${!#lists.isEmpty(expenses)}">
-            <div class="card-header">
-                <h5 class="mb-0">カテゴリ別支出構成</h5>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6 offset-md-3">
-                        <canvas id="expenseChart" width="400" height="400"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
 
 <script th:inline="javascript">
