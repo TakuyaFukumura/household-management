@@ -3,6 +3,7 @@
 .gitignore
 
 # ビルド生成物（JARファイル以外）
+target/
 *.war
 *.ear
 *.class
@@ -38,6 +39,7 @@ npm-debug.log*
 README.md
 *.md
 docs/
+
 # Mavenソースファイル（JAR使用時は不要）
 src/
 .mvn/
