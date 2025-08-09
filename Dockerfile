@@ -1,4 +1,9 @@
-# シンプルなDockerfile - 事前にビルドしたJARを使用
+# Multi-stage Dockerfile - Docker内でビルドと実行の両方に対応
+# 
+# ビルド用ファイル: Dockerfile.build を使用すると Docker内でビルドが可能
+# デフォルト: 事前ビルド済みJARファイルを使用（推奨）
+
+# 事前ビルド用（メイン）
 FROM eclipse-temurin:17-jre
 
 WORKDIR /app

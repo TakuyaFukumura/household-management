@@ -85,18 +85,40 @@ java -jar ./target/*.jar
 
 ### Docker イメージのビルドと起動
 
-**重要**: Dockerfileはビルド済みのJARファイルを使用するため、事前にアプリケーションをビルドしてください。
+Dockerでの開発環境は2つの方法で利用できます：
+
+#### 方法1: 事前ビルド方式（推奨・最も安定）
+
+事前にローカルでアプリケーションをビルドしてからDockerコンテナで実行します。
 
 ```bash
 # アプリケーションを事前にビルド
 ./mvnw clean package -DskipTests
+
+# Docker Compose で起動
+docker compose up --build
 ```
 
-#### Docker Compose を使用した起動（推奨）
-```bash
-# アプリケーションをビルドして起動
-docker compose up --build
+#### 方法2: Docker内ビルド方式
 
+Docker内で完全にビルドから実行まで行います。JavaやMavenをローカルにインストールする必要がありません。
+
+```bash
+# Docker内でビルドするための別Dockerfileを使用
+docker build -f Dockerfile.build -t household-management .
+
+# コンテナを起動
+docker run -p 8080:8080 -v $(pwd)/h2db:/app/h2db household-management
+```
+
+**注意**: 
+- 方法1は最も安定した動作を提供します
+- 方法2は一部の環境で証明書関連の問題が発生する可能性があります
+- 環境によっては方法2が動作しない場合、方法1をご利用ください
+
+### Docker Compose を使用した起動
+
+```bash
 # バックグラウンドで起動
 docker compose up -d --build
 
@@ -107,14 +129,16 @@ docker compose logs -f
 docker compose down
 ```
 
-**注意**: 古い `docker-compose` コマンドも使用可能ですが、新しい `docker compose` コマンドを推奨します。
+### Docker コマンドを直接使用
 
-#### Docker コマンドを直接使用
 ```bash
-# イメージをビルド
+# 事前ビルド方式
+./mvnw clean package -DskipTests
 docker build -t household-management .
+docker run -p 8080:8080 -v $(pwd)/h2db:/app/h2db household-management
 
-# コンテナを起動
+# Docker内ビルド方式
+docker build -f Dockerfile.build -t household-management .
 docker run -p 8080:8080 -v $(pwd)/h2db:/app/h2db household-management
 ```
 
