@@ -1,0 +1,46 @@
+# Git関連
+.git
+.gitignore
+
+# ビルド生成物（JARファイルは含む）
+target/classes/
+target/test-classes/
+target/maven-archiver/
+target/maven-status/
+target/surefire-reports/
+*.war
+*.ear
+*.class
+
+# IDE関連
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+
+# OS関連
+.DS_Store
+Thumbs.db
+
+# ログファイル
+*.log
+logs/
+
+# テンポラリファイル
+*.tmp
+*.temp
+*~
+
+# Node.js（もし使用している場合）
+node_modules/
+npm-debug.log*
+
+# その他
+docs/
+
+# H2データベースファイル（開発用）
+h2db/
