@@ -34,11 +34,6 @@ logs/
 node_modules/
 npm-debug.log*
 
-# Docker関連
-Dockerfile
-docker-compose*.yml
-.dockerignore
-
 # その他
 README.md
 *.md
