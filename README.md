@@ -87,24 +87,29 @@ java -jar ./target/*.jar
 
 Docker内で完全にビルドから実行まで行います。JavaやMavenをローカルにインストールする必要がありません。
 
+- Dockerイメージをビルド
 ```bash
-# Dockerイメージをビルド
 docker build -t household-management .
-
-# コンテナを起動
+```
+- コンテナを起動
+```bash
 docker run -p 8080:8080 -v $(pwd)/h2db:/app/h2db household-management
 ```
 
 ### Docker Compose を使用した起動
 
+- バックグラウンドで起動
 ```bash
-# バックグラウンドで起動
 docker compose up -d --build
+```
 
-# ログを確認
+- ログを確認
+```bash
 docker compose logs -f
+```
 
-# 停止
+- 停止
+```bash
 docker compose down
 ```
 
@@ -112,6 +117,8 @@ docker compose down
 
 ```bash
 docker build -t household-management .
+```
+```bash
 docker run -p 8080:8080 -v $(pwd)/h2db:/app/h2db household-management
 ```
 
@@ -129,24 +136,30 @@ Docker Compose 使用時、H2 データベースファイルは `./h2db` ディ�
 ### トラブルシューティング
 
 #### ポートが使用中の場合
+- 使用中のプロセスを確認
 ```bash
-# 使用中のプロセスを確認
 lsof -i :8080
+```
 
-# docker-compose.yml でポートを変更
+- docker-compose.yml でポートを変更
+```yaml
 ports:
   - "8081:8080"  # ホストポート8081にマッピング
 ```
 
 #### コンテナのリビルド
+- キャッシュを使わずにリビルド
 ```bash
-# キャッシュを使わずにリビルド
 docker compose build --no-cache
+```
 
-# または docker-compose を使用
+- または docker-compose を使用
+```bash
 docker-compose build --no-cache
+```
 
-# 不要なイメージを削除
+- 不要なイメージを削除
+```bash
 docker system prune
 ```
 
