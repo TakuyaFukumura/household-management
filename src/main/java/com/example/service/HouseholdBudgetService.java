@@ -30,12 +30,12 @@ public class HouseholdBudgetService {
     }
 
     /**
-     * 全ての家計予算データをカテゴリ名でソートして取得します。
+     * 全ての家計予算データを金額降順でソートして取得します。
      *
-     * @return 家計予算リスト
+     * @return 家計予算リスト（金額降順）
      */
     public List<HouseholdBudget> getAllHouseholdBudgets() {
-        return householdBudgetRepository.findAllByOrderByCategory();
+        return householdBudgetRepository.findAllByOrderByAmountDesc();
     }
 
     /**
