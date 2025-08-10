@@ -1,5 +1,5 @@
 -- 家計簿テーブル
-CREATE TABLE household_expenses (
+CREATE TABLE IF NOT EXISTS household_expenses (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     expense_date DATE NOT NULL,
     category VARCHAR(100) NOT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE household_expenses (
 );
 
 -- 家計予算テーブル
-CREATE TABLE household_budgets (
+CREATE TABLE IF NOT EXISTS household_budgets (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     category VARCHAR(100) NOT NULL UNIQUE,
     amount DECIMAL(10,2) NOT NULL,

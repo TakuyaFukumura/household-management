@@ -1,4 +1,5 @@
 -- 家計簿データ
+DELETE FROM household_expenses;
 INSERT INTO household_expenses (expense_date, category, amount, description) VALUES
 ('2025-06-15', '食料費', 1500.00, 'スーパーでの買い物'),
 ('2025-07-16', '交通費', 300.00, '電車代'),
@@ -12,6 +13,7 @@ INSERT INTO household_expenses (expense_date, category, amount, description) VAL
 ('2025-09-24', '食料費', 1800.00, '食材購入');
 
 -- 家計予算データ
+DELETE FROM household_budgets;
 INSERT INTO household_budgets (category, amount) VALUES
 ('投資', 70000.00),
 ('住居費', 42000.00),
