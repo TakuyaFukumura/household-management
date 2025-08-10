@@ -1,144 +1,159 @@
-# Household Management Application
+# 家計管理アプリケーション
 
-家計管理 (Household Management) is a Spring Boot web application for managing household expenses and budgets. The application provides expense tracking, budget management, and data visualization through charts, all built with Spring Boot, Thymeleaf, and H2 database.
+家計管理（Household Management）は、Spring Boot を用いた家計の支出・予算管理 Web
+アプリケーションです。支出記録、予算管理、グラフによるデータ可視化機能を備え、Spring Boot・Thymeleaf・H2 データベースで構築されています。
 
-Always reference these instructions first and fallback to search or bash commands only when you encounter unexpected information that does not match the info here.
+まず本ガイドを参照し、ここに記載のない情報や不明点があれば検索やコマンド実行で補完してください。
 
-## Working Effectively
+## 効率的な作業のために
 
-### Bootstrap and Build Commands
-- Make Maven wrapper executable: `chmod +x mvnw`
-- Clean compile: `./mvnw clean compile` -- **NEVER CANCEL**: First run takes 2.5 minutes (with dependency downloads), subsequent runs take ~3 seconds. Set timeout to 300+ seconds for safety.
-- Run tests: `./mvnw test` -- **NEVER CANCEL**: Takes 53 seconds. Set timeout to 120+ seconds.
-- Package JAR: `./mvnw clean package` -- **NEVER CANCEL**: Takes 39 seconds. Set timeout to 90+ seconds.
-- Skip tests during package: `./mvnw clean package -DskipTests` -- **NEVER CANCEL**: Takes 3 seconds after initial build. Set timeout to 90+ seconds.
+### 初期化・ビルドコマンド
 
-### Running the Application
-- **Development mode**: `./mvnw spring-boot:run` -- Starts application on port 8080 in ~3 seconds
-- **JAR execution**: `java -jar ./target/*.jar` -- Run packaged application
-- **Main application URL**: http://localhost:8080
-- **H2 database console**: http://localhost:8080/h2-console/
-  - JDBC URL: `jdbc:h2:./h2db/h2`
-  - Username: `super`
-  - Password: (empty)
+- Maven ラッパーを実行可能にする: `chmod +x mvnw`
+- クリーンコンパイル: `./mvnw clean compile`  ※絶対にキャンセルしないこと。初回は2.5分（依存ダウンロード含む）、2回目以降は約3秒。タイムアウトは300秒以上推奨。
+- テスト実行: `./mvnw test`  ※絶対にキャンセルしないこと。約53秒。タイムアウトは120秒以上推奨。
+- JAR パッケージング: `./mvnw clean package`  ※絶対にキャンセルしないこと。約39秒。タイムアウトは90秒以上推奨。
+- テストをスキップしてパッケージ: `./mvnw clean package -DskipTests`  ※絶対にキャンセルしないこと。初回ビルド後は約3秒。タイムアウトは90秒以上推奨。
 
-### Docker Support
-- Docker build: `docker build -t household-management .` -- **FAILS due to SSL certificate issues in restricted environments**
-- Docker Compose: `docker compose up -d --build` -- **FAILS due to SSL certificate issues in restricted environments**
-- **IMPORTANT**: Docker builds fail with certificate validation errors. Use local Maven builds instead.
+### アプリケーションの起動
 
-## Validation
+- **開発モード**: `./mvnw spring-boot:run`  約3秒で8080番ポートで起動
+- **JAR 実行**: `java -jar ./target/*.jar`
+- **メインURL**: http://localhost:8080
+- **H2 DBコンソール**: http://localhost:8080/h2-console/
+    - JDBC URL: `jdbc:h2:./h2db/h2`
+    - ユーザー名: `super`
+    - パスワード: （空欄）
 
-### Manual Testing Scenarios
-After making changes, always validate with these scenarios:
+### Docker サポート
 
-1. **Application Startup Validation**:
-   - Run `./mvnw spring-boot:run`
-   - Verify application starts without errors in ~3 seconds
-   - Access http://localhost:8080 and confirm homepage loads (Japanese UI with Bootstrap styling)
-   - Verify H2 console is accessible at http://localhost:8080/h2-console
+- Docker ビルド: `docker build -t household-management .`  ※SSL証明書エラーで失敗します（制限環境下）
+- Docker Compose: `docker compose up -d --build`  ※SSL証明書エラーで失敗します（制限環境下）
+- **重要**: Docker ビルドは証明書検証エラーで失敗します。ローカルの Maven ビルドを使用してください。
 
-2. **Core Functionality Testing**:
-   - Navigate to expenses section (支出一覧) at http://localhost:8080/expenses
-   - Navigate to budget section (予算一覧) at http://localhost:8080/budget
-   - Test chart data API endpoints: http://localhost:8080/api/chart/expenses and http://localhost:8080/api/chart/budgets
-   - Verify charts render properly (Chart.js integration)
-   - Test adding a new expense entry via the web interface
-   - Test viewing/editing budget categories via the web interface
+## 検証
 
-3. **Database Validation**:
-   - Access H2 console with credentials: username=`super`, password=(empty)
-   - Verify `household_expenses` and `household_budgets` tables exist
-   - Check sample data loads from `data.sql`
+### 手動テストシナリオ
 
-### Build Validation Steps
-- Always run full test suite: `./mvnw test` before making changes
-- **NEVER CANCEL** any build commands - they may take several minutes
-- Always build after changes: `./mvnw clean compile`
-- Package and test JAR execution after significant changes
+変更後は必ず以下を手動で検証してください。
 
-### No Lint/Format Commands Available
-- This project does not have configured lint or format plugins (no checkstyle, spotbugs, spotless, etc.)
-- Code style validation must be done manually
-- CI pipeline only runs basic compilation (see `.github/workflows/build.yml`)
+1. **アプリ起動確認**:
+    - `./mvnw spring-boot:run` を実行
+    - エラーなく約3秒で起動すること
+    - http://localhost:8080 でホーム画面（日本語UI・Bootstrap）が表示されること
+    - http://localhost:8080/h2-console でH2コンソールにアクセスできること
 
-## Common Tasks
+2. **主要機能テスト**:
+    - 支出一覧（http://localhost:8080/expenses ）にアクセス
+    - 予算一覧（http://localhost:8080/budget ）にアクセス
+    - チャートAPI（http://localhost:8080/api/chart/expenses, http://localhost:8080/api/chart/budgets ）を確認
+    - グラフが正しく表示されること（Chart.js連携）
+    - Web画面から新規支出を追加できること
+    - 予算カテゴリの閲覧・編集ができること
 
-### Technology Stack
-- **Framework**: Spring Boot 3.5.4
-- **Java Version**: Java 17
-- **Build Tool**: Maven with wrapper (`mvnw`)
-- **Database**: H2 (file-based: `./h2db/h2`)
-- **Template Engine**: Thymeleaf
-- **Testing**: Spock Framework (Groovy tests)
+3. **DB検証**:
+    - H2コンソールに `super`（パスワード空）でログイン
+    - `household_expenses` と `household_budgets` テーブルが存在すること
+    - `data.sql` からサンプルデータが読み込まれていること
+
+### ビルド検証手順
+
+- 変更前に必ずテストスイートを実行: `./mvnw test`
+- **絶対にビルドコマンドをキャンセルしないこと**（初回3分以上かかる場合あり）
+- 変更後は必ずビルド: `./mvnw clean compile`
+- 重要な変更後はJARパッケージング・実行も確認
+
+### Lint/Format コマンドなし
+
+- 本プロジェクトは Lint/Format プラグイン未導入（checkstyle, spotbugs, spotless等なし）
+- コードスタイルは手動で確認
+- CIパイプラインは基本的なコンパイルのみ（`.github/workflows/build.yml`参照）
+
+## よくある作業
+
+### 技術スタック
+
+- **フレームワーク**: Spring Boot 3.5.4
+- **Javaバージョン**: Java 17
+- **ビルドツール**: Maven（ラッパーあり）
+- **DB**: H2（ファイル型: `./h2db/h2`）
+- **テンプレートエンジン**: Thymeleaf
+- **テスト**: Spock Framework（Groovy）
 - **UI**: Bootstrap 5.3.2, Chart.js 4.4.0
 
-### Project Structure
+### プロジェクト構成
+
 ```
 src/main/java/com/example/
-├── Main.java                           # Application entry point
-├── controller/                         # REST controllers
-│   ├── ChartDataController.java       # Chart data API
-│   ├── HouseholdBudgetController.java # Budget management
-│   └── HouseholdExpenseController.java # Expense management  
-├── entity/                            # JPA entities
-│   ├── HouseholdBudget.java          # Budget entity
-│   └── HouseholdExpense.java         # Expense entity
-├── repository/                        # Data access layer
-├── service/                          # Business logic
-└── dto/                              # Data transfer objects
+├── Main.java                           # アプリエントリポイント
+├── controller/                         # RESTコントローラ
+│   ├── ChartDataController.java       # チャートAPI
+│   ├── HouseholdBudgetController.java # 予算管理
+│   └── HouseholdExpenseController.java # 支出管理  
+├── entity/                            # JPAエンティティ
+│   ├── HouseholdBudget.java          # 予算エンティティ
+│   └── HouseholdExpense.java         # 支出エンティティ
+├── repository/                        # データアクセス層
+├── service/                          # ビジネスロジック
+└── dto/                              # DTO
 
 src/main/resources/
-├── application.properties             # App configuration
-├── data.sql                          # Sample data
-├── schema.sql                        # Database schema
-└── templates/                        # Thymeleaf templates
-    ├── budget/                       # Budget management UI
-    ├── expenses/                     # Expense management UI
-    └── fragments/                    # Reusable UI components
+├── application.properties             # 設定
+├── data.sql                          # サンプルデータ
+├── schema.sql                        # DBスキーマ
+└── templates/                        # Thymeleafテンプレート
+    ├── budget/                       # 予算管理UI
+    ├── expenses/                     # 支出管理UI
+    └── fragments/                    # 共通UI部品
 
-src/test/groovy/                      # Spock tests
+src/test/groovy/                      # Spockテスト
 ```
 
-### Database Configuration
-- **Database Type**: H2 file database
-- **File Location**: `./h2db/h2` (created automatically)
-- **Mode**: MySQL compatibility mode
-- **Schema**: Auto-created with `create-drop` strategy
-- **Sample Data**: Loaded from `src/main/resources/data.sql`
+### DB設定
 
-### Key Dependencies
-- `spring-boot-starter-web` - Web framework
-- `spring-boot-starter-data-jpa` - Data persistence
-- `spring-boot-starter-thymeleaf` - Template engine
-- `h2` - Embedded database
-- `lombok` - Code generation
-- `spock-core`, `spock-spring` - Testing framework
+- **DB種別**: H2ファイルDB
+- **ファイル場所**: `./h2db/h2`（自動生成）
+- **モード**: MySQL互換
+- **スキーマ**: `create-drop`戦略で自動生成
+- **サンプルデータ**: `src/main/resources/data.sql`からロード
 
-### Troubleshooting
-- **Port 8080 in use**: Change port in `application.properties` with `server.port=8081`
-- **H2 database issues**: Delete `h2db` directory and restart to recreate database
-- **Build failures**: Ensure Java 17 is installed and JAVA_HOME is set correctly
-- **Test failures**: Individual Spock tests are in Groovy - use `./mvnw test -Dtest=ClassName` for specific tests
-- **Docker build fails**: Expected due to SSL certificate issues - use local Maven builds instead
+### 主な依存関係
 
-### Performance Expectations
-- **Initial build**: 2.5 minutes (includes dependency downloads)
-- **Subsequent builds**: 3-5 seconds (dependencies cached)
-- **Test execution**: 53 seconds
-- **Application startup**: 3-6 seconds (JAR takes slightly longer)
-- **JAR packaging**: 3-39 seconds (depends on if dependencies need downloading)
+- `spring-boot-starter-web` - Webフレームワーク
+- `spring-boot-starter-data-jpa` - データ永続化
+- `spring-boot-starter-thymeleaf` - テンプレートエンジン
+- `h2` - 組み込みDB
+- `lombok` - コード生成
+- `spock-core`, `spock-spring` - テストフレームワーク
 
-### CI/CD Pipeline
+### トラブルシューティング
+
+- **8080ポート使用中**: `application.properties`で `server.port=8081` などに変更
+- **H2 DB不具合**: `h2db` ディレクトリ削除後、再起動で再作成
+- **ビルド失敗**: Java 17インストール・JAVA_HOME設定確認
+- **テスト失敗**: 個別Spockテストは `./mvnw test -Dtest=ClassName` で実行
+- **Dockerビルド失敗**: 仕様通り。ローカルMavenビルドを使用
+
+### パフォーマンス目安
+
+- **初回ビルド**: 2.5分（依存ダウンロード含む）
+- **2回目以降ビルド**: 3-5秒（依存キャッシュ済み）
+- **テスト実行**: 53秒
+- **アプリ起動**: 3-6秒（JARはやや遅い）
+- **JARパッケージング**: 3-39秒（依存状況による）
+
+### CI/CDパイプライン
+
 - **GitHub Actions**: `.github/workflows/build.yml`
-- **Build command**: `./mvnw clean compile`
-- **No deployment automation** - manual deployment required
-- **No automated testing** in CI - only compilation check
+- **ビルドコマンド**: `./mvnw clean compile`
+- **自動デプロイなし**（手動デプロイ）
+- **自動テストなし**（コンパイルのみ）
 
-## Critical Reminders
-- **NEVER CANCEL** Maven commands - builds may take 3+ minutes initially
-- Always set timeouts of 300+ seconds for initial builds, 120+ seconds for subsequent builds
-- Test the application manually after every significant change
-- Docker builds will fail - use local Maven builds exclusively
-- Application uses Japanese language interface - this is expected
-- H2 console is enabled by default - disable in production by setting `spring.h2.console.enabled=false`
+## 重要な注意事項
+
+- **Mavenコマンドは絶対にキャンセルしないこと**（初回3分以上かかる場合あり）
+- 初回ビルドは300秒以上、2回目以降は120秒以上のタイムアウトを設定
+- 重要な変更後は必ず手動でアプリをテスト
+- Dockerビルドは失敗するため、ローカルMavenビルドのみ使用
+- アプリUIは日本語が標準
+- H2コンソールはデフォルトで有効（本番では `spring.h2.console.enabled=false` で無効化推奨）
