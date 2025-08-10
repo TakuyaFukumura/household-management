@@ -7,9 +7,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * カテゴリーサービス
- */
 @Service
 public class CategoryService {
 
@@ -46,25 +43,6 @@ public class CategoryService {
      */
     public Optional<Category> getCategoryByName(String name) {
         return categoryRepository.findByName(name);
-    }
-
-    /**
-     * カテゴリーを保存
-     *
-     * @param category カテゴリー
-     * @return 保存されたカテゴリー
-     */
-    public Category saveCategory(Category category) {
-        return categoryRepository.save(category);
-    }
-
-    /**
-     * カテゴリーを削除
-     *
-     * @param id カテゴリーID
-     */
-    public void deleteCategory(Long id) {
-        categoryRepository.deleteById(id);
     }
 
     /**
