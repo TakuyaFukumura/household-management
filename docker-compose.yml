@@ -10,8 +10,7 @@ services:
     volumes:
       # H2データベースファイルを永続化
       - ./h2db:/app/h2db
-      # 開発時のライブリロード用（オプション）
-      - ./src:/app/src:ro
+
     environment:
       # Spring Boot プロファイル
       - SPRING_PROFILES_ACTIVE=docker
