@@ -48,7 +48,7 @@ public class HouseholdExpenseService {
         
         Map<String, BigDecimal> categorySum = expenses.stream()
                 .collect(Collectors.groupingBy(
-                        HouseholdExpense::getCategory,
+                        expense -> expense.getCategoryEntity().getName(),
                         Collectors.reducing(
                                 BigDecimal.ZERO,
                                 HouseholdExpense::getAmount,

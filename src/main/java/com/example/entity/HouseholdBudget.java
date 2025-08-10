@@ -33,16 +33,10 @@ public class HouseholdBudget {
     private Long id;
 
     /**
-     * カテゴリ名
-     */
-    @Column(nullable = false, length = 100, unique = true)
-    private String category;
-
-    /**
-     * カテゴリーマスター参照（今後はこちらを使用予定）
+     * カテゴリーマスター参照
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = false, unique = true)
     private Category categoryEntity;
 
     /**
@@ -70,15 +64,6 @@ public class HouseholdBudget {
      */
     public HouseholdBudget(Category categoryEntity, BigDecimal amount) {
         this.categoryEntity = categoryEntity;
-        this.category = categoryEntity.getName(); // 後方互換性のため
-        this.amount = amount;
-    }
-
-    /**
-     * カスタムコンストラクタ（文字列カテゴリ使用）
-     */
-    public HouseholdBudget(String category, BigDecimal amount) {
-        this.category = category;
         this.amount = amount;
     }
 }

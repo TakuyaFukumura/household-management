@@ -1,6 +1,7 @@
 package com.example.service
 
 
+import com.example.entity.Category
 import com.example.entity.HouseholdExpense
 import com.example.repository.HouseholdExpenseRepository
 import spock.lang.Specification
@@ -19,15 +20,26 @@ class HouseholdExpenseServiceSpec extends Specification {
     @Subject
     HouseholdExpenseService householdExpenseService = new HouseholdExpenseService(householdExpenseRepository)
 
+    // Helper method to create mock categories
+    private Category createMockCategory(String name) {
+        def category = new Category()
+        category.setId(name.hashCode() as Long)
+        category.setName(name)
+        category.setDescription("${name}の説明")
+        return category
+    }
+
     def "年月で支出データ取得_正常系_日付降順ソート"() {
         given: "指定年月の支出データが複数存在する"
         def targetYm = YearMonth.of(2025, 7)
         def startDate = targetYm.atDay(1)
         def endDate = targetYm.atEndOfMonth()
+        def utilitiesCategory = createMockCategory("光熱費")
+        def foodCategory = createMockCategory("食費")
         def expenses = [
-                new HouseholdExpense(LocalDate.of(2025, 7, 4), "光熱費", new BigDecimal("8000"), "電気代"),
-                new HouseholdExpense(LocalDate.of(2025, 7, 2), "食費", new BigDecimal("1500"), "昼食"),
-                new HouseholdExpense(LocalDate.of(2025, 7, 1), "食費", new BigDecimal("1000"), "朝食")
+                new HouseholdExpense(LocalDate.of(2025, 7, 4), utilitiesCategory, new BigDecimal("8000"), "電気代"),
+                new HouseholdExpense(LocalDate.of(2025, 7, 2), foodCategory, new BigDecimal("1500"), "昼食"),
+                new HouseholdExpense(LocalDate.of(2025, 7, 1), foodCategory, new BigDecimal("1000"), "朝食")
         ]
         householdExpenseRepository.findByExpenseDateBetweenOrderByExpenseDateDescIdDesc(startDate, endDate) >> expenses
 
@@ -43,11 +55,14 @@ class HouseholdExpenseServiceSpec extends Specification {
         def targetYm = YearMonth.of(2025, 7)
         def startDate = targetYm.atDay(1)
         def endDate = targetYm.atEndOfMonth()
+        def utilitiesCategory = createMockCategory("光熱費")
+        def foodCategory = createMockCategory("食費")
+        def transportCategory = createMockCategory("交通費")
         def expenses = [
-                new HouseholdExpense(LocalDate.of(2025, 7, 4), "光熱費", new BigDecimal("8000"), "電気代"),
-                new HouseholdExpense(LocalDate.of(2025, 7, 2), "食費", new BigDecimal("1500"), "昼食"),
-                new HouseholdExpense(LocalDate.of(2025, 7, 1), "食費", new BigDecimal("1000"), "朝食"),
-                new HouseholdExpense(LocalDate.of(2025, 7, 3), "交通費", new BigDecimal("500"), "電車代")
+                new HouseholdExpense(LocalDate.of(2025, 7, 4), utilitiesCategory, new BigDecimal("8000"), "電気代"),
+                new HouseholdExpense(LocalDate.of(2025, 7, 2), foodCategory, new BigDecimal("1500"), "昼食"),
+                new HouseholdExpense(LocalDate.of(2025, 7, 1), foodCategory, new BigDecimal("1000"), "朝食"),
+                new HouseholdExpense(LocalDate.of(2025, 7, 3), transportCategory, new BigDecimal("500"), "電車代")
         ]
         householdExpenseRepository.findByExpenseDateBetweenOrderByAmountDesc(startDate, endDate) >> expenses
 
@@ -85,10 +100,11 @@ class HouseholdExpenseServiceSpec extends Specification {
         def targetYm = YearMonth.of(2025, 7)
         def startDate = targetYm.atDay(1)
         def endDate = targetYm.atEndOfMonth()
+        def foodCategory = createMockCategory("食費")
         def expenses = [
-                new HouseholdExpense(LocalDate.of(2025, 7, 1), "食費", new BigDecimal("1200"), "昼食"),
-                new HouseholdExpense(LocalDate.of(2025, 7, 1), "食費", new BigDecimal("1000"), "朝食"),
-                new HouseholdExpense(LocalDate.of(2025, 7, 1), "食費", new BigDecimal("800"), "夕食")
+                new HouseholdExpense(LocalDate.of(2025, 7, 1), foodCategory, new BigDecimal("1200"), "昼食"),
+                new HouseholdExpense(LocalDate.of(2025, 7, 1), foodCategory, new BigDecimal("1000"), "朝食"),
+                new HouseholdExpense(LocalDate.of(2025, 7, 1), foodCategory, new BigDecimal("800"), "夕食")
         ]
         householdExpenseRepository.findByExpenseDateBetweenOrderByAmountDesc(startDate, endDate) >> expenses
 
@@ -107,7 +123,8 @@ class HouseholdExpenseServiceSpec extends Specification {
 
     def "IDで支出データ取得_存在する場合"() {
         given: "指定IDの支出データが存在する"
-        def expense = new HouseholdExpense(LocalDate.of(2025, 7, 1), "食費", new BigDecimal("1000"), "朝食")
+        def foodCategory = createMockCategory("食費")
+        def expense = new HouseholdExpense(LocalDate.of(2025, 7, 1), foodCategory, new BigDecimal("1000"), "朝食")
         expense.setId(1L)
         householdExpenseRepository.findById(1L) >> Optional.of(expense)
 
@@ -118,7 +135,7 @@ class HouseholdExpenseServiceSpec extends Specification {
         result.isPresent()
         with(result.get()) {
             id == 1L
-            category == "食費"
+            categoryEntity.name == "食費"
             amount == new BigDecimal("1000")
             description == "朝食"
         }
@@ -137,7 +154,8 @@ class HouseholdExpenseServiceSpec extends Specification {
 
     def "支出データ保存"() {
         given: "保存する支出データ"
-        def expense = new HouseholdExpense(LocalDate.now(), "交通費", new BigDecimal("500"), "電車代")
+        def transportCategory = createMockCategory("交通費")
+        def expense = new HouseholdExpense(LocalDate.now(), transportCategory, new BigDecimal("500"), "電車代")
 
         when: "支出データを保存する"
         householdExpenseService.saveExpense(expense)

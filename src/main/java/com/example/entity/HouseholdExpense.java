@@ -22,14 +22,11 @@ public class HouseholdExpense {
     @Column(name = "expense_date", nullable = false)
     private LocalDate expenseDate;
     
-    @Column(nullable = false, length = 100)
-    private String category;
-    
     /**
-     * カテゴリーマスター参照（今後はこちらを使用予定）
+     * カテゴリーマスター参照
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = false)
     private Category categoryEntity;
     
     @Column(nullable = false, precision = 10, scale = 2)
@@ -44,19 +41,10 @@ public class HouseholdExpense {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    // カスタムコンストラクタ（新規作成時用）
-    public HouseholdExpense(LocalDate expenseDate, String category, BigDecimal amount, String description) {
-        this.expenseDate = expenseDate;
-        this.category = category;
-        this.amount = amount;
-        this.description = description;
-    }
-
     // カスタムコンストラクタ（カテゴリエンティティ使用）
     public HouseholdExpense(LocalDate expenseDate, Category categoryEntity, BigDecimal amount, String description) {
         this.expenseDate = expenseDate;
         this.categoryEntity = categoryEntity;
-        this.category = categoryEntity.getName(); // 後方互換性のため
         this.amount = amount;
         this.description = description;
     }

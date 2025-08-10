@@ -2,6 +2,7 @@ package com.example.repository;
 
 import com.example.entity.HouseholdBudget;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public interface HouseholdBudgetRepository extends JpaRepository<HouseholdBudget
      *
      * @return ソート済み家計予算リスト
      */
+    @Query("SELECT b FROM HouseholdBudget b JOIN FETCH b.categoryEntity c ORDER BY c.name")
     List<HouseholdBudget> findAllByOrderByCategory();
 
     /**

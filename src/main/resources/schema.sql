@@ -11,8 +11,7 @@ CREATE TABLE IF NOT EXISTS categories (
 CREATE TABLE IF NOT EXISTS household_expenses (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     expense_date DATE NOT NULL,
-    category VARCHAR(100) NOT NULL,
-    category_id BIGINT,
+    category_id BIGINT NOT NULL,
     amount DECIMAL(10,2) NOT NULL,
     description VARCHAR(255),
     created_at TIMESTAMP,
@@ -23,8 +22,7 @@ CREATE TABLE IF NOT EXISTS household_expenses (
 -- 家計予算テーブル
 CREATE TABLE IF NOT EXISTS household_budgets (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    category VARCHAR(100) NOT NULL UNIQUE,
-    category_id BIGINT,
+    category_id BIGINT NOT NULL UNIQUE,
     amount DECIMAL(10,2) NOT NULL,
     created_at TIMESTAMP,
     updated_at TIMESTAMP,

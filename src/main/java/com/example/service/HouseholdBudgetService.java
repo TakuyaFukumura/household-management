@@ -45,7 +45,7 @@ public class HouseholdBudgetService {
      */
     public List<ChartDataDto> getBudgetChartData() {
         return getAllHouseholdBudgets().stream()
-                .map(budget -> new ChartDataDto(budget.getCategory(), budget.getAmount()))
+                .map(budget -> new ChartDataDto(budget.getCategoryEntity().getName(), budget.getAmount()))
                 .collect(Collectors.toList());
     }
 
