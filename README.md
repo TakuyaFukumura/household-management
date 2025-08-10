@@ -113,15 +113,6 @@ docker compose logs -f
 docker compose down
 ```
 
-### Docker コマンドを直接使用
-
-```bash
-docker build -t household-management .
-```
-```bash
-docker run -p 8080:8080 -v $(pwd)/h2db:/app/h2db household-management
-```
-
 ### アクセス方法
 
 アプリケーションが起動したら、以下の URL からアクセスできます：
