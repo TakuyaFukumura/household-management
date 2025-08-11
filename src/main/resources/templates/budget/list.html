@@ -33,7 +33,7 @@
                 </thead>
                 <tbody>
                     <tr th:each="householdBudget : ${householdBudgets}">
-                        <td th:text="${householdBudget.category}"></td>
+                        <td th:text="${householdBudget.categoryEntity.name}"></td>
                         <td th:text="${'¥' + #numbers.formatInteger(householdBudget.amount, 0)}" class="text-end"></td>
                         <td>
                             <a th:href="@{/budget/edit/{id}(id=${householdBudget.id})}" class="btn btn-warning btn-sm me-1">編集</a>
