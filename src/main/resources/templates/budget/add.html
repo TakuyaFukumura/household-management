@@ -19,9 +19,15 @@
                     <div class="card-body">
                         <form th:action="@{/budget/add}" th:object="${householdBudget}" method="post">
                             <div class="mb-3">
-                                <label for="category" class="form-label">カテゴリ <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="category" th:field="*{category}" required>
-                                <div class="form-text">例: 住居費、食費、娯楽費など</div>
+                                <label for="categoryEntity" class="form-label">カテゴリ <span class="text-danger">*</span></label>
+                                <select class="form-control" id="categoryEntity" th:field="*{categoryEntity}" required>
+                                    <option value="">選択してください</option>
+                                    <option th:each="category : ${categories}" 
+                                            th:value="${category.id}" 
+                                            th:text="${category.name}">
+                                    </option>
+                                </select>
+                                <div class="form-text">カテゴリを選択してください</div>
                             </div>
                             
                             <div class="mb-3">
