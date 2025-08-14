@@ -1,6 +1,7 @@
 package com.example.service
 
 
+import com.example.entity.Category
 import com.example.entity.HouseholdBudget
 import com.example.repository.HouseholdBudgetRepository
 import spock.lang.Specification
@@ -16,13 +17,26 @@ class HouseholdBudgetServiceSpec extends Specification {
     @Subject
     HouseholdBudgetService householdBudgetService = new HouseholdBudgetService(householdBudgetRepository)
 
+    // Helper method to create mock categories
+    private Category createMockCategory(String name) {
+        def category = new Category()
+        category.setId(name.hashCode() as Long)
+        category.setName(name)
+        category.setDescription("${name}の説明")
+        return category
+    }
+
     def "予算チャートデータ取得_正常系"() {
         given: "予算データが複数存在する"
+        def housingCategory = createMockCategory("住居費")
+        def foodCategory = createMockCategory("食費")
+        def entertainmentCategory = createMockCategory("娯楽費")
+        def utilitiesCategory = createMockCategory("光熱費")
         def budgets = [
-                new HouseholdBudget(1L, "住居費", new BigDecimal("42000"), null, null),
-                new HouseholdBudget(2L, "食費", new BigDecimal("30000"), null, null),
-                new HouseholdBudget(3L, "娯楽費", new BigDecimal("20000"), null, null),
-                new HouseholdBudget(4L, "光熱費", new BigDecimal("15000"), null, null)
+                new HouseholdBudget(1L, housingCategory, new BigDecimal("42000"), null, null),
+                new HouseholdBudget(2L, foodCategory, new BigDecimal("30000"), null, null),
+                new HouseholdBudget(3L, entertainmentCategory, new BigDecimal("20000"), null, null),
+                new HouseholdBudget(4L, utilitiesCategory, new BigDecimal("15000"), null, null)
         ]
         householdBudgetRepository.findAllByOrderByCategory() >> budgets
 
@@ -64,8 +78,9 @@ class HouseholdBudgetServiceSpec extends Specification {
 
     def "予算チャートデータ取得_単一データ"() {
         given: "予算データが1つ存在する"
+        def foodCategory = createMockCategory("食費")
         def budgets = [
-                new HouseholdBudget(1L, "食費", new BigDecimal("30000"), null, null)
+                new HouseholdBudget(1L, foodCategory, new BigDecimal("30000"), null, null)
         ]
         householdBudgetRepository.findAllByOrderByCategory() >> budgets
 
@@ -84,7 +99,8 @@ class HouseholdBudgetServiceSpec extends Specification {
 
     def "IDで予算データ取得_存在する場合"() {
         given: "指定IDの予算データが存在する"
-        def budget = new HouseholdBudget(1L, "食費", new BigDecimal("30000"), null, null)
+        def foodCategory = createMockCategory("食費")
+        def budget = new HouseholdBudget(1L, foodCategory, new BigDecimal("30000"), null, null)
         householdBudgetRepository.findById(1L) >> Optional.of(budget)
 
         when: "IDで予算データを取得する"
@@ -93,7 +109,7 @@ class HouseholdBudgetServiceSpec extends Specification {
         then: "該当する予算データが返される"
         result.isPresent()
         result.get().id == 1L
-        result.get().category == "食費"
+        result.get().categoryEntity.name == "食費"
         result.get().amount == new BigDecimal("30000")
     }
 
@@ -110,7 +126,8 @@ class HouseholdBudgetServiceSpec extends Specification {
 
     def "予算データ保存"() {
         given: "保存する予算データ"
-        def budget = new HouseholdBudget(null, "交通費", new BigDecimal("10000"), null, null)
+        def transportCategory = createMockCategory("交通費")
+        def budget = new HouseholdBudget(transportCategory, new BigDecimal("10000"))
 
         when: "予算データを保存する"
         householdBudgetService.saveHouseholdBudget(budget)

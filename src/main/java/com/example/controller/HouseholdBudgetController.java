@@ -1,7 +1,9 @@
 package com.example.controller;
 
 import com.example.entity.HouseholdBudget;
+import com.example.entity.Category;
 import com.example.service.HouseholdBudgetService;
+import com.example.service.CategoryService;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,12 +38,19 @@ public class HouseholdBudgetController {
     private final HouseholdBudgetService householdBudgetService;
 
     /**
+     * カテゴリーサービス
+     */
+    private final CategoryService categoryService;
+
+    /**
      * コンストラクタ
      *
      * @param householdBudgetService 家計予算サービス
+     * @param categoryService カテゴリーサービス
      */
-    public HouseholdBudgetController(HouseholdBudgetService householdBudgetService) {
+    public HouseholdBudgetController(HouseholdBudgetService householdBudgetService, CategoryService categoryService) {
         this.householdBudgetService = householdBudgetService;
+        this.categoryService = categoryService;
     }
 
     /**
@@ -70,6 +79,7 @@ public class HouseholdBudgetController {
     @GetMapping("/add")
     public String showAddForm(Model model) {
         model.addAttribute("householdBudget", new HouseholdBudget());
+        model.addAttribute("categories", categoryService.getAllCategories());
         return "budget/add";
     }
 
@@ -100,6 +110,7 @@ public class HouseholdBudgetController {
                     return new EntityNotFoundException("家計予算が見つかりません。");
                 });
         model.addAttribute("householdBudget", householdBudget);
+        model.addAttribute("categories", categoryService.getAllCategories());
         return "budget/edit";
     }
 

@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.entity.HouseholdExpense;
 import com.example.service.HouseholdExpenseService;
+import com.example.service.CategoryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -26,9 +27,11 @@ public class HouseholdExpenseController {
     private static final String REDIRECT_EXPENSES = "redirect:/expenses";
 
     private final HouseholdExpenseService householdExpenseService;
+    private final CategoryService categoryService;
 
-    public HouseholdExpenseController(HouseholdExpenseService householdExpenseService) {
+    public HouseholdExpenseController(HouseholdExpenseService householdExpenseService, CategoryService categoryService) {
         this.householdExpenseService = householdExpenseService;
+        this.categoryService = categoryService;
     }
 
     @InitBinder
@@ -86,6 +89,7 @@ public class HouseholdExpenseController {
     @GetMapping("/add")
     public String showAddForm(Model model) {
         model.addAttribute("expense", new HouseholdExpense());
+        model.addAttribute("categories", categoryService.getAllCategories());
         return "expenses/add";
     }
 
@@ -104,6 +108,7 @@ public class HouseholdExpenseController {
             return REDIRECT_EXPENSES;
         }
         model.addAttribute("expense", expense);
+        model.addAttribute("categories", categoryService.getAllCategories());
         return "expenses/edit";
     }
 

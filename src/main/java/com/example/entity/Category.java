@@ -2,12 +2,9 @@ package com.example.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,35 +12,33 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * 家計予算
+ * カテゴリーマスター
  */
 @Entity
-@Table(name = "household_budgets")
+@Table(name = "categories")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class HouseholdBudget {
+public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**
-     * カテゴリーマスター参照
+     * カテゴリ名
      */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id", nullable = false, unique = true)
-    private Category categoryEntity;
+    @Column(nullable = false, length = 100, unique = true)
+    private String name;
 
     /**
-     * 予算金額
+     * カテゴリ説明
      */
-    @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal amount;
+    @Column(length = 255)
+    private String description;
 
     /**
      * 作成日時
@@ -60,10 +55,17 @@ public class HouseholdBudget {
     private LocalDateTime updatedAt;
 
     /**
-     * カスタムコンストラクタ（カテゴリエンティティ使用）
+     * カテゴリ名のみでのコンストラクタ
      */
-    public HouseholdBudget(Category categoryEntity, BigDecimal amount) {
-        this.categoryEntity = categoryEntity;
-        this.amount = amount;
+    public Category(String name) {
+        this.name = name;
+    }
+
+    /**
+     * カテゴリ名と説明でのコンストラクタ
+     */
+    public Category(String name, String description) {
+        this.name = name;
+        this.description = description;
     }
 }
