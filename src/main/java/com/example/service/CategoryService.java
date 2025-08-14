@@ -54,4 +54,13 @@ public class CategoryService {
     public boolean existsByName(String name) {
         return categoryRepository.existsByName(name);
     }
+
+    /**
+     * まだ予算が設定されていないカテゴリーを取得
+     *
+     * @return 予算未設定のカテゴリーのリスト
+     */
+    public List<Category> getCategoriesWithoutBudget() {
+        return categoryRepository.findCategoriesWithoutBudget();
+    }
 }

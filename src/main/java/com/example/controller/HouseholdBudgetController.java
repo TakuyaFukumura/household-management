@@ -79,7 +79,7 @@ public class HouseholdBudgetController {
     @GetMapping("/add")
     public String showAddForm(Model model) {
         model.addAttribute("householdBudget", new HouseholdBudget());
-        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("categories", categoryService.getCategoriesWithoutBudget());
         return "budget/add";
     }
 
