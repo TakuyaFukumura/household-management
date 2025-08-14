@@ -39,7 +39,7 @@ class CategoryServiceSpec extends Specification {
 
         then: "4つのカテゴリーが返される"
         result.size() == 4
-        
+
         and: "取得されたカテゴリーが正しい"
         result.collect { it.name } == ["交通費", "光熱費", "雑費", "医療費"]
     }
