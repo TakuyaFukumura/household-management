@@ -1,6 +1,6 @@
 # Multi-stage Dockerfile - Docker内でビルドから実行まで対応
 # ビルドステージ
-FROM maven:3.9.9-eclipse-temurin-17 AS builder
+FROM maven:3.9-eclipse-temurin-11 AS builder
 
 WORKDIR /app
 
